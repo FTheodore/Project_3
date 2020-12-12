@@ -32,9 +32,9 @@ void Dataset::readData(string &fileName) {
         inpFile.get(*p--);
     }
 
-//    cout << "Number of images:" << this->imgNum << endl;
-//    cout << "Number of rows:" << this->rows << endl;
-//    cout << "Number of columns:" << this->columns << endl;
+    cout << "Number of images:" << this->imgNum << endl;
+    cout << "Number of rows:" << this->rows << endl;
+    cout << "Number of columns:" << this->columns << endl;
 
     // create image objects by reading the pixels
     for (int i = 0; i < this->imgNum; ++i) {

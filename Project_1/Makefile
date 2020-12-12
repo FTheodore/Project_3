@@ -7,11 +7,15 @@ OBJS_CLSTRNG =	algorithm.o Assignment.o Cluster.o Config.o Silhouette.o UtilsClu
 OBJS_CMMN =		bucket.o CmdArgumentsReader.o dataset.o Distance.o hashFuncs.o image.o PriorityQueue.o Utils.o
 OBJS_STRCT =	HyperCube.o lsh.o
 OBJS_ALG = 		AproxNN.o ExactNN.o RangeSearch.o
-EXECS =			lsh cube cluster
+EXECS =			lsh cube cluster search
 
 all: $(EXECS)
 
 lsh: lsh_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
+	$(CC) *.o -o $@
+	rm $<
+
+search: search_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 	$(CC) *.o -o $@
 	rm $<
 
