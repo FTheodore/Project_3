@@ -15,6 +15,7 @@ assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
+#Get arguments from user
 def readArgs():
     datasetGiven = False
     outFileGiven = False
@@ -32,7 +33,7 @@ def readArgs():
 
     return dataset, out_file
 
-
+#Normalize vector to [0, 255]
 def minMaxNormalize(vec):
     vec_normd = []
 
@@ -42,6 +43,7 @@ def minMaxNormalize(vec):
 
     return vec_normd
 
+#Normalize all vectors
 def normVecs(vecs):
     toRet = []
 
@@ -62,10 +64,11 @@ def saveLatentVectors(out, latent_dim, img_num, vectors):
 
         for vec in vectors:
             for elem in vec:
-                fl.write(elem.to_bytes(1, byteorder='big'))
+                fl.write(elem.to_bytes(1, byteorder='big')) #write pixel value
 
 
 if __name__=='__main__':
+
     # read command line arguments or get them from the user
     dataset_fname, output = readArgs()
 
@@ -88,7 +91,6 @@ if __name__=='__main__':
     neural_net = Model(input_img, NN, name='Reducer')
 
     neural_net.summary()
-
 
     # get latent vectors
     latent_imgs = neural_net.predict(images)

@@ -111,3 +111,73 @@ ClusterCmdVariables* setClusterArguments(int argc, char const *argv[])
     return clusterCmdVariables;
 }
 
+
+void SearchArguments::getFromTTY(const int & argc, char ** argv) {
+    for(int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i], "-D") == 0)
+        {
+            this->dataFileOldSpace = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-i") == 0 || strcmp(argv[i], "-I") == 0)
+        {
+            this->dataFileNewSpace = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-q") == 0 || strcmp(argv[i], "-Q") == 0)
+        {
+            this->queryFileOldSpace = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-s") == 0 || strcmp(argv[i], "-S") == 0)
+        {
+            this->queryFileNewSpace = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-k") == 0 || strcmp(argv[i], "-K") == 0)
+        {
+            this->numHashFuncts = stoi(argv[i+1]);
+        }
+        else if(strcmp(argv[i],"-l") == 0 || strcmp(argv[i], "-L") == 0)
+        {
+            this->lshTables = stoi(argv[i+1]);
+        }
+        else if(strcmp(argv[i],"-o") == 0 || strcmp(argv[i], "-O") == 0)
+        {
+            this->outputFile = argv[i+1];
+        }
+    }
+}
+void SearchArguments::getFromUser() {
+    if(this->dataFileOldSpace.empty()) {
+        cout << "Insert path of input file of original space: ";
+        cin >> this->dataFileOldSpace;
+        cout << endl;
+    }
+
+    if(this->dataFileNewSpace.empty()) {
+        cout << "Insert path of input file of new space: ";
+        cin >> this->dataFileNewSpace;
+        cout << endl;
+    }
+
+    if(this->queryFileOldSpace.empty()) {
+        cout << "Insert path of query file of original space: ";
+        cin >> this->queryFileOldSpace;
+        cout << endl;
+    }
+
+    if(this->queryFileNewSpace.empty()) {
+        cout << "Insert path of query file of new space: ";
+        cin >> this->queryFileNewSpace;
+        cout << endl;
+    }
+
+    if(this->outputFile.empty()) {
+        cout << "Insert path of output file: ";
+        cin >> this->outputFile;
+        cout << endl;
+    }
+}
+
+SearchArguments::SearchArguments(const int & argc, char ** argv) {
+    this->getFromTTY(argc, argv);
+    this->getFromUser();
+}

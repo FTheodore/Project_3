@@ -20,6 +20,19 @@ void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestIma
                   bool,
                   ofstream&);
 
+void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpcNearestImage,
+                     tuple<vector<tuple<int,Image*>>, microseconds> &exactNewSpcNearestImage,
+                     tuple<vector<tuple<int,Image*>>, microseconds> &lshOldSpcNearestImage,
+                     int exactNewOrigDist,
+                     Image * queryImg,
+                     bool isLsh,
+                     ofstream& outputFile);
+
+void approxFactor(vector<int> distancesOldExact,
+                  vector<int> distancesNewExact,
+                  vector<int> distancesOldLsh,
+                  ofstream& outputFile);
+
 void unmarkImgs(vector<Image*> * imgs, int imgNum);
 void unassignImgs(vector<Image*> * imgs, int imgNum);
 

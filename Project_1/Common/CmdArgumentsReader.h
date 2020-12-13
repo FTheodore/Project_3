@@ -53,6 +53,21 @@ public:
     string method;          //Method: Classic(Lloyds) or LSH or Hypercube
 };
 
+class SearchArguments{
+public:
+    string dataFileOldSpace;
+    string dataFileNewSpace;
+    string queryFileOldSpace;
+    string queryFileNewSpace;
+    string outputFile;
+    int numHashFuncts = K_LSH_DEFAULT;
+    int lshTables = L_LSH_DEFAULT;
+
+    SearchArguments(const int &, char **);
+    void getFromTTY(const int &, char **);
+    void getFromUser();
+};
+
 LshCmdVariables* setLshArguments(int argc, char const *argv[]);
 CubeCmdVariables* setCubeArguments(int argc, char const *argv[]);
 ClusterCmdVariables* setClusterArguments(int argc, char const *argv[]);
