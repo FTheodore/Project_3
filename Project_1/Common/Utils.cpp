@@ -74,9 +74,9 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
     else {
         outputFile << "Approximate Nearest neighbour-1: NOT FOUND" << endl;
     }
-    outputFile << "Exact Nearest neighbour Original space-1:"
+    outputFile << "Exact Nearest neighbour Original space-1: "
         << get<1>(vExactOld.at(0))->getId() << endl;
-    outputFile << "Exact Nearest neighbour new space-1:"
+    outputFile << "Exact Nearest neighbour New space-1: "
         << get<1>(vExactNew.at(0))->getId() << endl;
 
     if(!vApprOld.empty()) {
@@ -85,8 +85,8 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
     else {
         outputFile << distanceOutput(isLsh) << "-" << endl;
     }
-    outputFile << "distanceTrue-Original Space: " << get<0>(vExactOld.at(0)) << endl;
-    outputFile << "distanceTrue-New Space: (New) " << get<0>(vExactNew.at(0))
+    outputFile << "distanceTrue-Original space: " << get<0>(vExactOld.at(0)) << endl;
+    outputFile << "distanceTrue-New space: (New) " << get<0>(vExactNew.at(0))
             << ", (Original) " << exactNewOrigDist << endl << endl;
 
 
@@ -111,8 +111,8 @@ void approxFactor(vector<int> distancesOldExact,
     meanDistOldLsh /= distancesOldLsh.size();
 
     outputFile << "Approximation Factors:" << endl;
-    outputFile << "\t Lsh on original space: " << meanDistOldLsh / meanDistOldExct << endl;
-    outputFile << "\t Exact on new space: " << meanDistNewExct / meanDistOldExct << endl;
+    outputFile << "\t Lsh on Original space: " << meanDistOldLsh / meanDistOldExct << endl;
+    outputFile << "\t Exact on New space: " << meanDistNewExct / meanDistOldExct << endl;
 }
 
 void unmarkImgs(vector<Image*> * imgs, int imgNum) {

@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
     SearchArguments args(argc, (char **)argv);
 
     Dataset inputFileOldSpace(args.dataFileOldSpace);
-    Dataset inputFileNewSpace(args.dataFileOldSpace);
+    Dataset inputFileNewSpace(args.dataFileNewSpace);
 
     int w_smpl_prcnt, w_factor, approx_threshold;
     readParams(w_smpl_prcnt, w_factor, true, &approx_threshold);
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
 
 
     Dataset queryFileOldSpace(args.queryFileOldSpace);
-    Dataset queryFileNewSpace(args.queryFileOldSpace);
+    Dataset queryFileNewSpace(args.queryFileNewSpace);
 
     //Open output file
     ofstream outputFile;
