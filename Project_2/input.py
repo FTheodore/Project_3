@@ -50,7 +50,7 @@ def readImages(fileName):
         # print("Images in file: {}\nDimensions: {}x{}\n".format(imgNum, rows, cols), end='')
 
         # read all pixels at once
-        images = np.fromfile(f,np.uint8)
+        images = np.fromfile(f, dtype= np.uint8, count= imgNum * rows * cols)
         # 4-d array of images, 3-d array of size (28 x 28 x 1) per gray-scale image , i.e. one channel
         images = np.reshape(images.astype('float32'), (imgNum, rows, cols, 1))
 
@@ -63,7 +63,7 @@ def readLabels(fileName):
         lblNum = int.from_bytes(f.read(bytesInt), byteorder='big') # number of labels
 
         # read all labels at once
-        labels = np.fromfile(f,np.uint8)
+        labels = np.fromfile(f, dtype= np.uint8, count= lblNum)
 
         return labels, lblNum
 

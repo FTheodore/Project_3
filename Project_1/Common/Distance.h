@@ -14,7 +14,7 @@
 
 using namespace std;
 
-int manhattanDistance(vector<unsigned char> * firstImagePixels, vector<unsigned char> * secondImagePixels);
+int manhattanDistance(vector<int> * firstImagePixels, vector<int> * secondImagePixels);
 
 double calcW(vector<Image *> * imgs, double samplePrcnt, int imgNum);
 

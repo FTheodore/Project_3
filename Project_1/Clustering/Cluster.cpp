@@ -10,7 +10,7 @@ vector<Cluster *> * makeClusters(vector<Image *> *centroids, int numClusters) {
     return vec;
 }
 
-void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<unsigned char> *> *vec) {
+void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<int> *> *vec) {
     for (int i = 0; i < clusters.size(); ++i)
         vec->push_back(clusters.at(i)->getCentroid());
 }
@@ -77,7 +77,7 @@ int Cluster::getCentrId() const {
     return this->firstCentroidPtr->getId();
 }
 
-vector<unsigned char> * Cluster::getCentroid() {
+vector<int> * Cluster::getCentroid() {
     return this->centroid;
 }
 

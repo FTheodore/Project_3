@@ -15,7 +15,7 @@ private:
 public:
     F(int,double,int);
 
-    char flipTheCoin(vector<unsigned char> *);
+    char flipTheCoin(vector<int> *);
 
 };
 
@@ -29,7 +29,7 @@ private:
 public:
     HyperCube(int, double, int, int, int, vector<Image *> *);
     virtual ~HyperCube();
-    string getVertexIdx(vector<unsigned char> *);
+    string getVertexIdx(vector<int> *);
     Bucket * getVertexByIdx(const string &);
 };
 

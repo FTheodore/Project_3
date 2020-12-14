@@ -1,9 +1,9 @@
 #include "dataset.h"
 
-Dataset::Dataset(string &fileName) {
+Dataset::Dataset(string &fileName, int bytesPerPixel) {
     this->data = new vector<Image *>;
 
-    this->readData(fileName);
+    this->readData(fileName, bytesPerPixel);
 }
 
 Dataset::~Dataset(){
@@ -13,7 +13,7 @@ Dataset::~Dataset(){
     delete this->data; /* delete ptr to vector */
 }
 
-void Dataset::readData(string &fileName) {
+void Dataset::readData(string &fileName, int bytesPerPixel) {
     ifstream inpFile(fileName, ios_base::binary);
     if(!inpFile.is_open())
         throw runtime_error("File " + fileName + " cannot be opened.");
@@ -32,15 +32,28 @@ void Dataset::readData(string &fileName) {
         inpFile.get(*p--);
     }
 
+    cout << "Info about file \"" << fileName << "\":" << endl;
     cout << "Number of images:" << this->imgNum << endl;
     cout << "Number of rows:" << this->rows << endl;
-    cout << "Number of columns:" << this->columns << endl;
+    cout << "Number of columns:" << this->columns << endl << endl;
 
     // create image objects by reading the pixels
     for (int i = 0; i < this->imgNum; ++i) {
         Image * newImg = new Image(i);
-        for (int j = 0; j < this->rows*this->columns; ++j) {
-            newImg->setPixel(inpFile.get());
+        if (bytesPerPixel == 1) {
+            for (int j = 0; j < this->rows*this->columns; ++j) {
+                newImg->setPixel(inpFile.get());
+            }
+        }
+        else if (bytesPerPixel == 2) {
+            for (int j = 0; j < this->rows*this->columns; ++j) {
+                int firstByte = 0, secondByte = 0;
+                inpFile.get((char &)firstByte);
+                inpFile.get((char &)secondByte);
+                firstByte = firstByte << 8;
+                int pxl = firstByte | secondByte;
+                newImg->setPixel(pxl);
+            }
         }
         this->data->push_back(newImg);
     }

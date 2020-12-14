@@ -18,7 +18,7 @@ private:
 public:
     LshTable(int, vector<Image *> *, int, double, int );
     virtual ~LshTable();
-    tuple<unsigned int, Bucket* > getBucket(vector<unsigned char> *);
+    tuple<unsigned int, Bucket* > getBucket(vector<int> *);
 };
 
 class Lsh {

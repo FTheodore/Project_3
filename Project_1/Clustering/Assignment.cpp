@@ -2,7 +2,7 @@
 
 
 void lloydAssign(const vector<Cluster *> & clusters, vector<Image *> *imgs) { // first assignment, clusters are empty
-    vector<vector<unsigned char> *> centroids;
+    vector<vector<int> *> centroids;
     gatherCentroids(clusters,&centroids);
 
     //Iterate over all images to be inserted into clusters
@@ -13,7 +13,7 @@ void lloydAssign(const vector<Cluster *> & clusters, vector<Image *> *imgs) { //
 }
 
 void lloydAssign(const vector<Cluster *> & clusters, int & assignmentsNum) {
-    vector<vector<unsigned char> *> centroids;
+    vector<vector<int> *> centroids;
     gatherCentroids(clusters,&centroids);
 
     unordered_map<int,Image *> * clustImgs;
@@ -95,7 +95,7 @@ void reverseAssign(const vector<Cluster *> & clusters,
                    int maxProbes,
                    int srchThresh,
                    int clustThresh) {
-    vector<vector<unsigned char> *> centroids;
+    vector<vector<int> *> centroids;
     gatherCentroids(clusters,&centroids);
     int radius = minCentroidDist(&centroids);
     while(true) {

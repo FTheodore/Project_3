@@ -1,7 +1,7 @@
 #include "Silhouette.h"
 
 //Return index of closest neighbour cluster, used for calculation of b(i)
-int neighborClusterIdx(Image * img, vector<vector<unsigned char> *> *centroids, int imgClusterIdx) {
+int neighborClusterIdx(Image * img, vector<vector<int> *> *centroids, int imgClusterIdx) {
     int minDistance = numeric_limits<int>::max();
     int clustIdx;
     for (int i = 0; i < centroids->size(); ++i) {
@@ -32,7 +32,7 @@ double avgL1Dist(Image *img, unordered_map<int, Image *> *imgs) {
 
 //Calculate silhouette of an object
 double silhouetteObject(Image * img, const vector<Cluster *> & clusters, int imgClusterIdx) {
-    vector<vector<unsigned char> *> centroids;
+    vector<vector<int> *> centroids;
     gatherCentroids(clusters,&centroids);
     int neighorClst = neighborClusterIdx(img ,&centroids, imgClusterIdx);
 

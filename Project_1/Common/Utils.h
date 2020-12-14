@@ -28,9 +28,8 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
                      bool isLsh,
                      ofstream& outputFile);
 
-void approxFactor(vector<int> distancesOldExact,
-                  vector<int> distancesNewExact,
-                  vector<int> distancesOldLsh,
+void approxFactor(vector<double> apprFactorTermsLSH,
+                  vector<double> apprFactorTermsReduced,
                   ofstream& outputFile);
 
 void unmarkImgs(vector<Image*> * imgs, int imgNum);

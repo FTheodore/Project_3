@@ -1,123 +1,145 @@
 Query: 0
-Approximate Nearest neighbour-1: 53843
-Exact Nearest neighbour Original space-1:53843
-Exact Nearest neighbour new space-1:27059
-distanceLSH: 5244
-distanceTrue-Original Space: 5244
-distanceTrue-New Space: (New) 114, (Original) 6539
+Nearest Neighbour Reduced: 27059
+Nearest Neighbour LSH: 53843
+Nearest Neighbour True: 53843
 
-tReduced: 0.019836s
-tLSH: 0.16594s
-tTrue: 0.933494s
+distanceReduced: (Reduced) 11425, (Original) 6539
+distanceLSH: 5244
+distanceTrue: 5244
+
+tReduced: 0.016818s
+tLSH: 0.042362s
+tTrue: 0.8965s
 
 Query: 1
-Approximate Nearest neighbour-1: 28882
-Exact Nearest neighbour Original space-1:28882
-Exact Nearest neighbour new space-1:24010
-distanceLSH: 10378
-distanceTrue-Original Space: 10378
-distanceTrue-New Space: (New) 146, (Original) 12439
+Nearest Neighbour Reduced: 24010
+Nearest Neighbour LSH: 28882
+Nearest Neighbour True: 28882
 
-tReduced: 0.016228s
-tLSH: 0.016463s
-tTrue: 0.905528s
+distanceReduced: (Reduced) 14506, (Original) 12439
+distanceLSH: 10378
+distanceTrue: 10378
+
+tReduced: 0.017663s
+tLSH: 0.023841s
+tTrue: 0.89474s
 
 Query: 2
-Approximate Nearest neighbour-1: 58741
-Exact Nearest neighbour Original space-1:58741
-Exact Nearest neighbour new space-1:14986
-distanceLSH: 1799
-distanceTrue-Original Space: 1799
-distanceTrue-New Space: (New) 93, (Original) 3509
+Nearest Neighbour Reduced: 14986
+Nearest Neighbour LSH: 58741
+Nearest Neighbour True: 58741
 
-tReduced: 0.016775s
-tLSH: 0.309191s
-tTrue: 0.889146s
+distanceReduced: (Reduced) 9443, (Original) 3509
+distanceLSH: 1799
+distanceTrue: 1799
+
+tReduced: 0.016864s
+tLSH: 0.188346s
+tTrue: 0.896312s
 
 Query: 3
-Approximate Nearest neighbour-1: 59244
-Exact Nearest neighbour Original space-1:59244
-Exact Nearest neighbour new space-1:451
-distanceLSH: 10954
-distanceTrue-Original Space: 10954
-distanceTrue-New Space: (New) 143, (Original) 13476
+Nearest Neighbour Reduced: 451
+Nearest Neighbour LSH: 59244
+Nearest Neighbour True: 59244
 
-tReduced: 0.016404s
-tLSH: 0.180515s
-tTrue: 0.905831s
+distanceReduced: (Reduced) 14256, (Original) 13476
+distanceLSH: 10954
+distanceTrue: 10954
+
+tReduced: 0.016256s
+tLSH: 0.099209s
+tTrue: 0.912201s
 
 Query: 4
-Approximate Nearest neighbour-1: 52920
-Exact Nearest neighbour Original space-1:52920
-Exact Nearest neighbour new space-1:28034
-distanceLSH: 9566
-distanceTrue-Original Space: 9566
-distanceTrue-New Space: (New) 190, (Original) 13030
+Nearest Neighbour Reduced: 28034
+Nearest Neighbour LSH: 52920
+Nearest Neighbour True: 52920
 
-tReduced: 0.017453s
-tLSH: 0.243965s
-tTrue: 0.90597s
+distanceReduced: (Reduced) 18703, (Original) 13030
+distanceLSH: 9566
+distanceTrue: 9566
+
+tReduced: 0.017032s
+tLSH: 0.022296s
+tTrue: 0.900519s
 
 Query: 5
-Approximate Nearest neighbour-1: 51900
-Exact Nearest neighbour Original space-1:51900
-Exact Nearest neighbour new space-1:52268
-distanceLSH: 1670
-distanceTrue-Original Space: 1670
-distanceTrue-New Space: (New) 68, (Original) 2278
+Nearest Neighbour Reduced: 52268
+Nearest Neighbour LSH: 51900
+Nearest Neighbour True: 51900
 
-tReduced: 0.016342s
-tLSH: 0.335422s
-tTrue: 0.894473s
+distanceReduced: (Reduced) 6634, (Original) 2278
+distanceLSH: 1670
+distanceTrue: 1670
+
+tReduced: 0.016989s
+tLSH: 0.188971s
+tTrue: 0.902366s
 
 Query: 6
-Approximate Nearest neighbour-1: 18279
-Exact Nearest neighbour Original space-1:18279
-Exact Nearest neighbour new space-1:43894
-distanceLSH: 11951
-distanceTrue-Original Space: 11951
-distanceTrue-New Space: (New) 344, (Original) 25191
+Nearest Neighbour Reduced: 43894
+Nearest Neighbour LSH: 19478
+Nearest Neighbour True: 18279
 
-tReduced: 0.018258s
-tLSH: 0.253662s
-tTrue: 0.908845s
+distanceReduced: (Reduced) 34309, (Original) 25191
+distanceLSH: 13818
+distanceTrue: 11951
+
+tReduced: 0.016841s
+tLSH: 0.040332s
+tTrue: 0.927049s
 
 Query: 7
-Approximate Nearest neighbour-1: 56597
-Exact Nearest neighbour Original space-1:41982
-Exact Nearest neighbour new space-1:4544
-distanceLSH: 12129
-distanceTrue-Original Space: 11261
-distanceTrue-New Space: (New) 158, (Original) 14365
+Nearest Neighbour Reduced: 4544
+Nearest Neighbour LSH: 25446
+Nearest Neighbour True: 41982
 
-tReduced: 0.016238s
-tLSH: 0.147646s
-tTrue: 0.871526s
+distanceReduced: (Reduced) 15892, (Original) 14365
+distanceLSH: 12742
+distanceTrue: 11261
+
+tReduced: 0.016309s
+tLSH: 0.138243s
+tTrue: 0.888788s
 
 Query: 8
-Approximate Nearest neighbour-1: 17083
-Exact Nearest neighbour Original space-1:35628
-Exact Nearest neighbour new space-1:37226
-distanceLSH: 22437
-distanceTrue-Original Space: 18244
-distanceTrue-New Space: (New) 278, (Original) 22386
+Nearest Neighbour Reduced: 37226
+Nearest Neighbour LSH: 35628
+Nearest Neighbour True: 35628
 
-tReduced: 0.016205s
-tLSH: 0.008183s
-tTrue: 0.870031s
+distanceReduced: (Reduced) 27771, (Original) 22386
+distanceLSH: 18244
+distanceTrue: 18244
+
+tReduced: 0.01655s
+tLSH: 0.041675s
+tTrue: 0.87435s
 
 Query: 9
-Approximate Nearest neighbour-1: 5044
-Exact Nearest neighbour Original space-1:5044
-Exact Nearest neighbour new space-1:5044
-distanceLSH: 8712
-distanceTrue-Original Space: 8712
-distanceTrue-New Space: (New) 127, (Original) 8712
+Nearest Neighbour Reduced: 5044
+Nearest Neighbour LSH: 17167
+Nearest Neighbour True: 5044
+
+distanceReduced: (Reduced) 12573, (Original) 8712
+distanceLSH: 10302
+distanceTrue: 8712
 
 tReduced: 0.016251s
-tLSH: 0.051171s
-tTrue: 0.88959s
+tLSH: 0.026603s
+tTrue: 0.871049s
 
-Approximation Factors:
-	 Lsh on original space: 1.05637
-	 Exact on new space: 1.35806
+Query: 10
+Nearest Neighbour Reduced: 21266
+Nearest Neighbour LSH: 14092
+Nearest Neighbour True: 14092
+
+distanceReduced: (Reduced) 15610, (Original) 12832
+distanceLSH: 10937
+distanceTrue: 10937
+
+tReduced: 0.016648s
+tLSH: 0.02717s
+tTrue: 0.88209s
+
+Approximation Factor LSH: 1.04275
+Approximation Factor Reduced: 1.37603

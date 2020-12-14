@@ -3,7 +3,7 @@
 F::F(int imgDimension, double h_W, int h_div):h(imgDimension, h_W, h_div) {}
 
 // f mapping function of hypercube
-char F::flipTheCoin(vector<unsigned char> *pixels){
+char F::flipTheCoin(vector<int> *pixels){
     int hashReslt = this->h.hashResult(pixels); // hash the image
     try {
         return this->coinFlips.at(hashReslt); //first check whether f value for current hash result has been calculated
@@ -42,7 +42,7 @@ HyperCube::~HyperCube(){
         delete element.second;
 }
 
-string HyperCube::getVertexIdx(vector<unsigned char> * img) {
+string HyperCube::getVertexIdx(vector<int> * img) {
     string toRet;
     for (int i = 0; i < this->cubeDimension; ++i) // concatenate projections
         toRet += this->projectors.at(i)->flipTheCoin(img);

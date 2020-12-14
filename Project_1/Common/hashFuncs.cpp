@@ -63,7 +63,7 @@ int SimpleHash::modularExp(unsigned int base, unsigned int exp, int div) {
     return SimpleHash::mod(factor,div);
 }
 
-int SimpleHash::hashResult(vector<unsigned char> *pixels) {
+int SimpleHash::hashResult(vector<int> *pixels) {
     vector<int> a;
     /* calculate projections */
     for (int i = 0; i < this->dimension; ++i) {
@@ -102,7 +102,7 @@ AmplifiedHash::~AmplifiedHash() {
     delete this->subhashes;
 }
 
-tuple<int,unsigned int> AmplifiedHash::hashResult(vector<unsigned char> * img){
+tuple<int,unsigned int> AmplifiedHash::hashResult(vector<int> * img){
     unsigned int retVal = 0;
     for (int i = 0; i < this->numHashes; ++i) {
         /* get every subhash result */

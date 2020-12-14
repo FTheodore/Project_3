@@ -1,7 +1,7 @@
 #include "Distance.h"
 
 //Function that calculates the manhattan distance between two images
-int manhattanDistance(vector<unsigned char> * firstImagePixels, vector<unsigned char> * secondImagePixels) {
+int manhattanDistance(vector<int> * firstImagePixels, vector<int> * secondImagePixels) {
     int distance = 0;   //Distance to return
     for(int i = 0; i < firstImagePixels->size(); ++i) //For every dimension calculate distance
     {

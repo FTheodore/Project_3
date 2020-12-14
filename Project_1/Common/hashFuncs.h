@@ -27,7 +27,7 @@ public:
     SimpleHash(int,double,int);
     ~SimpleHash();
     double generateDcml() const;
-    int hashResult(vector<unsigned char>*);
+    int hashResult(vector<int>*);
     static int mod(unsigned int,int);
 };
 
@@ -40,7 +40,7 @@ private:
 public:
     AmplifiedHash(int, double, int, int);
     virtual ~AmplifiedHash();
-    tuple<int,unsigned int> hashResult(vector<unsigned char> *);
+    tuple<int,unsigned int> hashResult(vector<int> *);
 };
 
 #endif //PROJECT_TASK1_HASHFUNCS_H

@@ -12,15 +12,15 @@ private:
     int id; //image unique id based on file position
     bool marked;    //Lsh flag that is true when image was found in previous lsh tables
     bool assignedToCluster;
-    vector<unsigned char> *pixels;
+    vector<int> *pixels;
 
 public:
     Image(int);
     ~Image();
     int getId();
-    void setPixel(unsigned char);
+    void setPixel(int);
 
-    vector<unsigned char> *getPixels() const;
+    vector<int> *getPixels() const;
     bool isMarked();
     void markImage();
     void unmarkImage();

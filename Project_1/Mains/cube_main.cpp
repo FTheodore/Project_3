@@ -25,7 +25,7 @@ int main(int argc, char const * argv[]) {
             cout << endl;
         }
 
-        Dataset inputFile(cubeCmdVariables->inputFileName);
+        Dataset inputFile(cubeCmdVariables->inputFileName, 1);
 
         int w_smpl_prcnt, w_factor;
         readParams(w_smpl_prcnt,w_factor);
@@ -48,7 +48,7 @@ int main(int argc, char const * argv[]) {
             cout << endl;
         }
 
-        Dataset queryFile(cubeCmdVariables->queryFileName);
+        Dataset queryFile(cubeCmdVariables->queryFileName, 1);
 
         //Ask from user the path of output file
         if (cubeCmdVariables->outputFileName.empty()) {

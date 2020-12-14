@@ -67,27 +67,28 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
 
     outputFile << "Query: " << queryImg->getId() << endl;
 
+    outputFile << "Nearest Neighbour Reduced: "
+               << get<1>(vExactNew.at(0))->getId() << endl;
     if(!vApprOld.empty()) {
-        outputFile << "Approximate Nearest neighbour-1: "
+        outputFile << "Nearest Neighbour LSH: "
                    << get<1>(vApprOld.at(0))->getId() << endl;
     }
     else {
-        outputFile << "Approximate Nearest neighbour-1: NOT FOUND" << endl;
+        outputFile << "Nearest Neighbour LSH: NOT FOUND" << endl;
     }
-    outputFile << "Exact Nearest neighbour Original space-1: "
-        << get<1>(vExactOld.at(0))->getId() << endl;
-    outputFile << "Exact Nearest neighbour New space-1: "
-        << get<1>(vExactNew.at(0))->getId() << endl;
+    outputFile << "Nearest Neighbour True: "
+        << get<1>(vExactOld.at(0))->getId() << endl << endl;
 
+
+    outputFile << "distanceReduced: (Reduced) " << get<0>(vExactNew.at(0))
+               << ", (Original) " << exactNewOrigDist << endl;
     if(!vApprOld.empty()) {
         outputFile << distanceOutput(isLsh) << get<0>(vApprOld.at(0)) << endl;
     }
     else {
         outputFile << distanceOutput(isLsh) << "-" << endl;
     }
-    outputFile << "distanceTrue-Original space: " << get<0>(vExactOld.at(0)) << endl;
-    outputFile << "distanceTrue-New space: (New) " << get<0>(vExactNew.at(0))
-            << ", (Original) " << exactNewOrigDist << endl << endl;
+    outputFile << "distanceTrue: " << get<0>(vExactOld.at(0)) << endl << endl;
 
 
     outputFile << "tReduced: " << get<1>(exactNewSpcNearestImage).count() / 1e6 << "s" << endl;
@@ -96,23 +97,18 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
 
 }
 
-void approxFactor(vector<int> distancesOldExact,
-                  vector<int> distancesNewExact,
-                  vector<int> distancesOldLsh,
+void approxFactor(vector<double> apprFactorTermsLSH,
+                  vector<double> apprFactorTermsReduced,
                   ofstream& outputFile) {
     // calculate means
-    double meanDistOldExct = std::accumulate(distancesOldExact.begin(), distancesOldExact.end(), 0.0);
-    meanDistOldExct /= distancesOldExact.size();
+    double apprFacLSH = std::accumulate(apprFactorTermsLSH.begin(), apprFactorTermsLSH.end(), 0.0);
+    apprFacLSH /= apprFactorTermsLSH.size();
 
-    double meanDistNewExct = std::accumulate(distancesNewExact.begin(), distancesNewExact.end(), 0.0);
-    meanDistNewExct /= distancesNewExact.size();
+    double apprFacReduced = std::accumulate(apprFactorTermsReduced.begin(), apprFactorTermsReduced.end(), 0.0);
+    apprFacReduced /= apprFactorTermsReduced.size();
 
-    double meanDistOldLsh = std::accumulate(distancesOldLsh.begin(), distancesOldLsh.end(), 0.0);
-    meanDistOldLsh /= distancesOldLsh.size();
-
-    outputFile << "Approximation Factors:" << endl;
-    outputFile << "\t Lsh on Original space: " << meanDistOldLsh / meanDistOldExct << endl;
-    outputFile << "\t Exact on New space: " << meanDistNewExct / meanDistOldExct << endl;
+    outputFile << "Approximation Factor LSH: " << apprFacLSH << endl;
+    outputFile << "Approximation Factor Reduced: " << apprFacReduced << endl;
 }
 
 void unmarkImgs(vector<Image*> * imgs, int imgNum) {

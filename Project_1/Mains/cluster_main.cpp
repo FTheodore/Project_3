@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
         cin >> clusterCmdVariables->inputFileName;
         cout << endl;
     }
-    Dataset inputFile(clusterCmdVariables->inputFileName);
+    Dataset inputFile(clusterCmdVariables->inputFileName, 1);
 
     //Ask from user the path of config file
     if (clusterCmdVariables->configFileName.empty()) {

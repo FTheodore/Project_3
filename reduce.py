@@ -18,27 +18,41 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 #Get arguments from user
 def readArgs():
     datasetGiven = False
-    outFileGiven = False
+    outDatasetGiven = False
+    queryGiven = False
+    outQueryGiven = False
 
     for i,arg in enumerate(sys.argv):
         if arg == '-d':
             dataset = sys.argv[i+1]
-        elif arg == '-o':
-            out_file = sys.argv[i+1]
+            datasetGiven = True
+        elif arg == '-od':
+            outDataset = sys.argv[i+1]
+            outDatasetGiven = True
+        elif arg == '-q':
+            query = sys.argv[i+1]
+            queryGiven = True
+        elif arg == '-oq':
+            outQuery = sys.argv[i+1]
+            outQueryGiven = True
 
     if not datasetGiven:
-        dataset = input('Enter dataset path: ')
-    if not outFileGiven:
-        out_file = input('Enter output file path: ')
+        dataset = input('Enter dataset file path: ')
+    if not outDatasetGiven:
+        outDataset = input('Enter output dataset file path: ')
+    if not queryGiven:
+        query = input('Enter query file path: ')
+    if not outQueryGiven:
+        outQuery = input('Enter output query file path: ')
 
-    return dataset, out_file
+    return dataset, outDataset, query, outQuery
 
-#Normalize vector to [0, 255]
+#Normalize vector to [0, 25500]
 def minMaxNormalize(vec):
     vec_normd = []
 
     for elem in vec:
-        norm = ((elem - vec.min())/(vec.max()-vec.min())) * 255
+        norm = ((elem - vec.min())/(vec.max()-vec.min())) * 25500
         vec_normd.append(int(round(norm)))
 
     return vec_normd
@@ -64,18 +78,20 @@ def saveLatentVectors(out, latent_dim, img_num, vectors):
 
         for vec in vectors:
             for elem in vec:
-                fl.write(elem.to_bytes(1, byteorder='big')) #write pixel value
+                fl.write(elem.to_bytes(2, byteorder='big')) #write pixel value
 
 
 if __name__=='__main__':
 
     # read command line arguments or get them from the user
-    dataset_fname, output = readArgs()
+    dataset, outDataset, query, outQuery = readArgs()
 
-    images, imgNum, rows, cols = readImages(dataset_fname)
+    dImages, dImgNum, rows, cols = readImages(dataset)
+    qImages, qImgNum, _, _ = readImages(query)
 
     # scaling i.e. normalization
-    images = normalize(images)
+    dImages = normalize(dImages)
+    qImages = normalize(qImages)
 
     NN_path = input('Path to autoencoder: ')
     # load autoencoder model
@@ -93,11 +109,15 @@ if __name__=='__main__':
     neural_net.summary()
 
     # get latent vectors
-    latent_imgs = neural_net.predict(images)
+    latent_imgs_dataset = neural_net.predict(dImages)
+    latent_imgs_query = neural_net.predict(qImages)
 
-    # normalize to range 0-255
-    latent_imgs_normed = normVecs(latent_imgs)
+    # normalize to range 0-25500
+    latent_imgs_dataset_normed = normVecs(latent_imgs_dataset)
+    latent_imgs_query_normed = normVecs(latent_imgs_query)
 
     latent_dim = neural_net.get_layer(name='latent_layer').get_config()['units']
     # save to binary file
-    saveLatentVectors(output, latent_dim, imgNum, latent_imgs_normed)
+    saveLatentVectors(outDataset, latent_dim, dImgNum, latent_imgs_dataset_normed)
+    saveLatentVectors(outQuery, latent_dim, qImgNum, latent_imgs_query_normed)
+

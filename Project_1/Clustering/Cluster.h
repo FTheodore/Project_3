@@ -7,7 +7,7 @@
 
 class Cluster {
 private:
-    vector<unsigned char> *centroid; //Pixels of centroid
+    vector<int> *centroid; //Pixels of centroid
     Image * firstCentroidPtr; //keep pointer to first image centroid
     bool centrIsInDataset; // true if centroid is an image
     unordered_map<int,Image *> * imgs_in_cluster; // images inside the cluster
@@ -16,7 +16,7 @@ public:
     ~Cluster();
     void updateCentroid();
     unordered_map<int,Image *> * getClusterImgs();
-    vector<unsigned char> * getCentroid();
+    vector<int> * getCentroid();
     unordered_map<int,Image *>::iterator removeImg(unordered_map<int,Image *>::iterator);
     void removeImg(const int & key);
     void addImg(Image *);
@@ -25,7 +25,7 @@ public:
 };
 
 vector<Cluster *> * makeClusters(vector<Image *> *centroids, int numClusters);
-void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<unsigned char> *> *vec);
+void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<int> *> *vec);
 int getImgCluster(const vector<Cluster *> & clusters, Image * img);
 bool imgIsCentroid(const vector<Cluster *> & clusters, Image * img);
 

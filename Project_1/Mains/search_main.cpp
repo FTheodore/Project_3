@@ -17,8 +17,8 @@ int main(int argc, char const *argv[]) {
     // tty or cin arguments needed for the search
     SearchArguments args(argc, (char **)argv);
 
-    Dataset inputFileOldSpace(args.dataFileOldSpace);
-    Dataset inputFileNewSpace(args.dataFileNewSpace);
+    Dataset inputFileOldSpace(args.dataFileOldSpace, 1);
+    Dataset inputFileNewSpace(args.dataFileNewSpace, 2);
 
     int w_smpl_prcnt, w_factor, approx_threshold;
     readParams(w_smpl_prcnt, w_factor, true, &approx_threshold);
@@ -32,8 +32,8 @@ int main(int argc, char const *argv[]) {
     cout << "Done" << endl;
 
 
-    Dataset queryFileOldSpace(args.queryFileOldSpace);
-    Dataset queryFileNewSpace(args.queryFileNewSpace);
+    Dataset queryFileOldSpace(args.queryFileOldSpace, 1);
+    Dataset queryFileNewSpace(args.queryFileNewSpace, 2);
 
     //Open output file
     ofstream outputFile;
@@ -47,9 +47,8 @@ int main(int argc, char const *argv[]) {
     tuple<vector<tuple<int,Image*>>, microseconds> exactNewSpcNearestImage;
     tuple<vector<tuple<int,Image*>>, microseconds> lshOldSpcNearestImage;
 
-    vector<int> distancesOldExact;
-    vector<int> distancesNewExact;
-    vector<int> distancesOldLsh;
+    vector<double> apprFactorTermsLSH;
+    vector<double> apprFactorTermsReduced;
 
     for(int i = 0; i < queryFileOldSpace.getImages()->size(); i++) {
         //Run exactNN algorithm on old space
@@ -61,7 +60,7 @@ int main(int argc, char const *argv[]) {
         exactNewSpcNearestImage = exactNN(queryFileNewSpace.getImages()->at(i),
                                      inputFileNewSpace.getImages(),
                                      NNEIGHBOURS);
-
+        // Find l1 distance between query img and nearest img on original space
         int imgId = get<1>(get<0>(exactNewSpcNearestImage).at(0))->getId();
         int originalSpaceDist = manhattanDistance(queryFileOldSpace.getImages()->at(i)->getPixels(),
                                                   inputFileOldSpace.getImages()->at(imgId)->getPixels());
@@ -84,12 +83,17 @@ int main(int argc, char const *argv[]) {
                         outputFile); // bool affects output message
 
         // save distances for approximation factor calculation
-        distancesOldExact.push_back(get<0>(get<0>(exactOldSpcNearestImage).at(0)));
-        distancesNewExact.push_back(originalSpaceDist);
-        distancesOldLsh.push_back(get<0>(get<0>(lshOldSpcNearestImage).at(0)));
+        apprFactorTermsReduced.push_back(
+                (double)originalSpaceDist / get<0>(get<0>(exactOldSpcNearestImage).at(0))
+                        );
+        if(!get<0>(lshOldSpcNearestImage).empty())
+            apprFactorTermsLSH.push_back((double)
+                get<0>(get<0>(lshOldSpcNearestImage).at(0)) /
+                        get<0>(get<0>(exactOldSpcNearestImage).at(0))
+                    );
     }
 
-    approxFactor(distancesOldExact, distancesNewExact, distancesOldLsh, outputFile);
+    approxFactor(apprFactorTermsLSH, apprFactorTermsReduced, outputFile);
 
     outputFile.close();
     return 0;

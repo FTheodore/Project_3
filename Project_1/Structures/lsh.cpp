@@ -27,7 +27,7 @@ LshTable::~LshTable() {
     delete this->table;
 }
 
-tuple<unsigned int, Bucket* > LshTable::getBucket(vector<unsigned char> * image) {
+tuple<unsigned int, Bucket* > LshTable::getBucket(vector<int> * image) {
     tuple<int,unsigned int> tpl = this->gHash.hashResult(image);
     int index = get<0>(tpl);
     unsigned int hashRes = get<1>(tpl);

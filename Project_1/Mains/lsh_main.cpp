@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
             cout << endl;
         }
 
-        Dataset inputFile(lshCmdVariables->inputFileName);
+        Dataset inputFile(lshCmdVariables->inputFileName, 1);
 
         int w_smpl_prcnt, w_factor, approx_threshold;
         readParams(w_smpl_prcnt, w_factor, true, &approx_threshold);
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[]) {
             cout << endl;
         }
 
-        Dataset queryFile(lshCmdVariables->queryFileName);
+        Dataset queryFile(lshCmdVariables->queryFileName, 1);
 
         //Ask from user the path of output file
         if (lshCmdVariables->outputFileName.empty()) {

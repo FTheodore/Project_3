@@ -4,7 +4,7 @@ Image::Image(int id) {
     this->id = id;
     this->marked = false;
     this->assignedToCluster = false;
-    this->pixels = new vector<unsigned char>;
+    this->pixels = new vector<int>;
 }
 
 int Image::getId() {
@@ -15,11 +15,11 @@ Image::~Image() {
     delete this->pixels;
 }
 
-void Image::setPixel(unsigned char pxl) {
+void Image::setPixel(int pxl) {
     this->pixels->push_back(pxl);
 }
 
-vector<unsigned char> *Image::getPixels() const {
+vector<int> *Image::getPixels() const {
     return this->pixels;
 }
 

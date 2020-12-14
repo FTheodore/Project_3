@@ -16,10 +16,10 @@ private:
     int columns;
     int imgNum;
     vector<Image *> * data; // vector that contains the images
-    void readData(string &);
+    void readData(string &, int);
 
 public:
-    Dataset(string &);
+    Dataset(string &, int);
     virtual ~Dataset();
 
     vector<Image *> *getImages() const;

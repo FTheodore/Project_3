@@ -8,14 +8,14 @@
 
 using namespace std;
 
-vector<unsigned char> *getMedian(unordered_map<int,Image *> * imgs, int dimension);
+vector<int> *getMedian(unordered_map<int,Image *> * imgs, int dimension);
 
 int binSearch(const vector<double> &probs, int start, int end, const double &val);
 
 vector<Image *> kMeansPPlus(vector<Image *> *imgs, int numOfCentroids);
 
-int closestClusterIdx(Image * img, vector<vector<unsigned char> *> *centroids);
+int closestClusterIdx(Image * img, vector<vector<int> *> *centroids);
 
-int minCentroidDist(vector<vector<unsigned char> *> *centroids);
+int minCentroidDist(vector<vector<int> *> *centroids);
 
 #endif //PROJECT_TASK1_UTILSCLUSTER_H
