@@ -4,6 +4,7 @@
 #include "../Common/image.h"
 #include <tuple>
 #include <numeric>
+#include <cassert>
 
 class ImgClusters {
 private:
@@ -15,11 +16,10 @@ private:
 
     int findClustBrightness(Image *, int, int, int);
     tuple<int, int> findClustRepresentative(int, int);
+    void findClusters(Image *, int, int);
 
 public:
     ImgClusters(Image *, int, int, int, int);
-
-    void findClusters(Image *, int, int);
 };
 
 

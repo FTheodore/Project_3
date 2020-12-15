@@ -15,7 +15,7 @@ using namespace std::chrono;
 
 int main(int argc, char const *argv[]) {
     // tty or cin arguments needed for the search
-    SearchArguments args(argc, (char **)argv);
+    SearchRdcedArguments args(argc, (char **)argv);
 
     Dataset inputFileOldSpace(args.dataFileOldSpace, 1);
     Dataset inputFileNewSpace(args.dataFileNewSpace, 2);

@@ -112,7 +112,7 @@ ClusterCmdVariables* setClusterArguments(int argc, char const *argv[])
 }
 
 
-void SearchArguments::getFromTTY(const int & argc, char ** argv) {
+void SearchRdcedArguments::getFromTTY(const int & argc, char ** argv) {
     for(int i = 1; i < argc; ++i)
     {
         if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i], "-D") == 0)
@@ -145,7 +145,7 @@ void SearchArguments::getFromTTY(const int & argc, char ** argv) {
         }
     }
 }
-void SearchArguments::getFromUser() {
+void SearchRdcedArguments::getFromUser() {
     if(this->dataFileOldSpace.empty()) {
         cout << "Insert path of input file of original space: ";
         cin >> this->dataFileOldSpace;
@@ -177,7 +177,70 @@ void SearchArguments::getFromUser() {
     }
 }
 
-SearchArguments::SearchArguments(const int & argc, char ** argv) {
+SearchRdcedArguments::SearchRdcedArguments(const int & argc, char ** argv) {
+    this->getFromTTY(argc, argv);
+    this->getFromUser();
+}
+
+
+void SearchEmdArguments::getFromTTY(const int & argc, char ** argv) {
+    for(int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i], "-D") == 0)
+        {
+            this->inputFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-q") == 0 || strcmp(argv[i], "-Q") == 0)
+        {
+            this->queryFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-l1") == 0 || strcmp(argv[i], "-L1") == 0)
+        {
+            this->inputLblsFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-l2") == 0 || strcmp(argv[i], "-L2") == 0)
+        {
+            this->queryLblsFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-o") == 0 || strcmp(argv[i], "-O") == 0)
+        {
+            this->outputFile = argv[i+1];
+        }
+    }
+}
+void SearchEmdArguments::getFromUser() {
+    if(this->inputFile.empty()) {
+        cout << "Insert path of input file of original space: ";
+        cin >> this->inputFile;
+        cout << endl;
+    }
+
+    if(this->queryFile.empty()) {
+        cout << "Insert path of query file of original space: ";
+        cin >> this->queryFile;
+        cout << endl;
+    }
+
+    if(this->inputLblsFile.empty()) {
+        cout << "Insert path of input labels file: ";
+        cin >> this->inputLblsFile;
+        cout << endl;
+    }
+
+    if(this->queryLblsFile.empty()) {
+        cout << "Insert path of query labels file: ";
+        cin >> this->queryLblsFile;
+        cout << endl;
+    }
+
+    if(this->outputFile.empty()) {
+        cout << "Insert path of output file: ";
+        cin >> this->outputFile;
+        cout << endl;
+    }
+}
+
+SearchEmdArguments::SearchEmdArguments(const int & argc, char ** argv) {
     this->getFromTTY(argc, argv);
     this->getFromUser();
 }

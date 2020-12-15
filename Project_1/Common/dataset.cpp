@@ -72,3 +72,11 @@ int Dataset::getImageNum() const {
 int Dataset::getDimensions() const {
     return this->rows * this->columns;
 }
+
+int Dataset::getRows() const {
+    return this->rows;
+}
+
+int Dataset::getCols() const {
+    return this->columns;
+}

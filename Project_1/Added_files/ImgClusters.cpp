@@ -15,14 +15,18 @@ void ImgClusters::findClusters(Image * img, int imgRows, int imgCols) {
     // used for normalization
     int totalBrightness = std::accumulate(img->getPixels()->begin(),img->getPixels()->end(),0);
 
+    vector<int> weights;
     // for each cluster find weight and representative
     for (int x = 0; x < clustersVertical; ++x) {
         for (int y = 0; y < clustersHorizontal; ++y) {
             int weight = this->findClustBrightness(img, imgCols, x, y);
+            weights.push_back(weight);
             tuple<int,int> representative = this->findClustRepresentative(x,y);
             this->clusters.push_back(make_tuple(representative, (double)weight/totalBrightness));
         }
     }
+
+    assert(accumulate(weights.begin(),weights.end(),0)==totalBrightness);
 }
 
 int ImgClusters::findClustBrightness(Image * img, int imgCols, int x, int y) {

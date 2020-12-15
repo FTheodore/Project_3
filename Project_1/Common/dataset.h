@@ -25,6 +25,8 @@ public:
     vector<Image *> *getImages() const;
     int getImageNum() const;
     int getDimensions() const;
+    int getRows() const;
+    int getCols() const;
 };
 
 

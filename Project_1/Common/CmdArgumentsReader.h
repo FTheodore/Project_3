@@ -53,7 +53,7 @@ public:
     string method;          //Method: Classic(Lloyds) or LSH or Hypercube
 };
 
-class SearchArguments{
+class SearchRdcedArguments{
 public:
     string dataFileOldSpace;
     string dataFileNewSpace;
@@ -63,7 +63,20 @@ public:
     int numHashFuncts = K_LSH_DEFAULT;
     int lshTables = L_LSH_DEFAULT;
 
-    SearchArguments(const int &, char **);
+    SearchRdcedArguments(const int &, char **);
+    void getFromTTY(const int &, char **);
+    void getFromUser();
+};
+
+class SearchEmdArguments{
+public:
+    string inputFile;
+    string queryFile;
+    string inputLblsFile;
+    string queryLblsFile;
+    string outputFile;
+
+    SearchEmdArguments(const int &, char **);
     void getFromTTY(const int &, char **);
     void getFromUser();
 };
