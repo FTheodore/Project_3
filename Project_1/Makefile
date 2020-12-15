@@ -1,5 +1,5 @@
-vpath %.h ./Common ./Algorithms ./Clustering/ ./Structures
-vpath %.cpp ./Common ./Algorithms ./Clustering/ ./Structures ./Mains .
+vpath %.h ./Common ./Algorithms ./Clustering/ ./Structures ./Added_files
+vpath %.cpp ./Common ./Algorithms ./Clustering/ ./Structures ./Added_files ./Mains .
 
 CC =			g++
 FLAGS = 		-c -std=c++11
@@ -7,7 +7,8 @@ OBJS_CLSTRNG =	algorithm.o Assignment.o Cluster.o Config.o Silhouette.o UtilsClu
 OBJS_CMMN =		bucket.o CmdArgumentsReader.o dataset.o Distance.o hashFuncs.o image.o PriorityQueue.o Utils.o
 OBJS_STRCT =	HyperCube.o lsh.o
 OBJS_ALG = 		AproxNN.o ExactNN.o RangeSearch.o
-EXECS =			lsh cube cluster search
+OBJS_NEW =		Labels.o ImgClusters.o
+EXECS =			lsh cube cluster search_reduced search_emd
 
 all: $(EXECS)
 
@@ -15,7 +16,11 @@ lsh: lsh_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 	$(CC) *.o -o $@
 	rm $<
 
-search: search_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
+search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
+	$(CC) *.o -o $@
+	rm $<
+
+search_emd: search_emd_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) $(OBJS_NEW)
 	$(CC) *.o -o $@
 	rm $<
 
