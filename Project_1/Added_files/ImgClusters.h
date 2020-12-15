@@ -20,6 +20,7 @@ private:
 
 public:
     ImgClusters(Image *, int, int, int, int);
+    vector<tuple<tuple<int,int>, double>> * getClusters();
 };
 
 

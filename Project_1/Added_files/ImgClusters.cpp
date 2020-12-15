@@ -59,3 +59,8 @@ tuple<int, int> ImgClusters::findClustRepresentative(int x, int y) {
 
     return make_tuple(reprRow, reprCol);
 }
+
+vector<tuple<tuple<int,int>, double>> * ImgClusters::getClusters()
+{
+    return &(this->clusters);
+}

@@ -7,7 +7,7 @@ OBJS_CLSTRNG =	algorithm.o Assignment.o Cluster.o Config.o Silhouette.o UtilsClu
 OBJS_CMMN =		bucket.o CmdArgumentsReader.o dataset.o Distance.o hashFuncs.o image.o PriorityQueue.o Utils.o
 OBJS_STRCT =	HyperCube.o lsh.o
 OBJS_ALG = 		AproxNN.o ExactNN.o RangeSearch.o
-OBJS_EMD =		Labels.o ImgClusters.o image.o dataset.o PriorityQueue.o CmdArgumentsReader.o ExactNN.o Utils.o Distance.o
+OBJS_EMD =		Labels.o ImgClusters.o Emd.o ExactNN.o
 EXECS =			lsh cube cluster search_reduced search_emd
 
 all: $(EXECS)
@@ -20,8 +20,8 @@ search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 	$(CC) *.o -o $@
 	rm $<
 
-search_emd: search_emd_main.o $(OBJS_EMD)
-	$(CC) *.o -o $@
+search_emd: search_emd_main.o $(OBJS_CMMN) $(OBJS_EMD)
+	$(CC) *.o -o $@ -lm
 	rm $<
 
 cube: cube_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) 

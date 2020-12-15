@@ -5,7 +5,7 @@
 #include "../Common/CmdArgumentsReader.h"
 #include "../Common/dataset.h"
 #include "../Added_files/Labels.h"
-#include "../Added_files/ImgClusters.h"
+#include "../Added_files/Emd.h"
 
 #define NNEIGHBOURS 10
 
@@ -28,7 +28,9 @@ int main(int argc, char const *argv[]) {
         throw runtime_error("File " + string(args.outputFile) + " cannot be opened.");
     }
 
-    ImgClusters clst(inputFile.getImages()->at(0),inputFile.getRows(), inputFile.getCols(), 4, 4);
+    emd(inputFile.getImages()->at(0),
+        queryFile.getImages()->at(0),
+        inputFile.getRows(),inputFile.getCols(),7,7);
 
     outputFile.close();
     return 0;
