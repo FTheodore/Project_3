@@ -1,8 +1,8 @@
 #include "Utils.h"
 
 // output range search results
-void printRangeNrstImages(vector<tuple<int,Image*>> &apprRangeSrchImages, ofstream& outputFile) {
-    vector<tuple<int,Image*>> &vec = apprRangeSrchImages;
+void printRangeNrstImages(vector<tuple<double,Image*>> &apprRangeSrchImages, ofstream& outputFile) {
+    vector<tuple<double,Image*>> &vec = apprRangeSrchImages;
     outputFile << "R-near neighbors: " << endl;
     for(int i = 0; i < vec.size(); ++i) {
         outputFile << "\t" << get<1>(vec.at(i))->getId() << endl;
@@ -15,14 +15,14 @@ string distanceOutput(bool isLsh) {
 }
 
 // output approximate nearest neighbour and exactNN results
-void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestImages,
-                  tuple<vector<tuple<int,Image*>>, microseconds> &exactNearestImages,
-                  vector<tuple<int,Image*>> &apprRangeSrchImages,
+void printResults(tuple<vector<tuple<double,Image*>>, microseconds> &apprNearestImages,
+                  tuple<vector<tuple<double,Image*>>, microseconds> &exactNearestImages,
+                  vector<tuple<double,Image*>> &apprRangeSrchImages,
                   Image * queryImg,
                   bool isLsh,
                   ofstream& outputFile) {
-    vector<tuple<int,Image*>> &vAppr = get<0>(apprNearestImages);
-    vector<tuple<int,Image*>> &vExact = get<0>(exactNearestImages);
+    vector<tuple<double,Image*>> &vAppr = get<0>(apprNearestImages);
+    vector<tuple<double,Image*>> &vExact = get<0>(exactNearestImages);
 
     outputFile << "Query: " << queryImg->getId() << endl;
     int diff = (int)vExact.size() - (int)vAppr.size();
@@ -33,8 +33,8 @@ void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestIma
             outputFile << "Exact Nearest neighbour-"<< vExact.size() - j
                  << ": " << get<1>(vExact.at(j))->getId() << endl;
 
-            outputFile << distanceOutput(isLsh) << get<0>(vAppr.at(j - diff)) << endl;
-            outputFile << "distanceTrue: " << get<0>(vExact.at(j)) << endl << endl;
+            outputFile << distanceOutput(isLsh) << (int)get<0>(vAppr.at(j - diff)) << endl;
+            outputFile << "distanceTrue: " << (int)get<0>(vExact.at(j)) << endl << endl;
         }
         else {
             outputFile << "Approximate Nearest neighbour-"<< vExact.size() - j
@@ -43,7 +43,7 @@ void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestIma
                  << ": " << get<1>(vExact.at(j))->getId() << endl;
 
             outputFile << distanceOutput(isLsh) << "-"<< endl;
-            outputFile << "distanceTrue: " << get<0>(vExact.at(j)) << endl << endl;
+            outputFile << "distanceTrue: " << (int)get<0>(vExact.at(j)) << endl << endl;
         }
 
     }
@@ -54,16 +54,16 @@ void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestIma
     printRangeNrstImages(apprRangeSrchImages, outputFile);
 }
 
-void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpcNearestImage,
-                     tuple<vector<tuple<int,Image*>>, microseconds> &exactNewSpcNearestImage,
-                     tuple<vector<tuple<int,Image*>>, microseconds> &lshOldSpcNearestImage,
+void printComparison(tuple<vector<tuple<double,Image*>>, microseconds> &exactOldSpcNearestImage,
+                     tuple<vector<tuple<double,Image*>>, microseconds> &exactNewSpcNearestImage,
+                     tuple<vector<tuple<double,Image*>>, microseconds> &lshOldSpcNearestImage,
                      int exactNewOrigDist,
                      Image * queryImg,
                      bool isLsh,
                      ofstream& outputFile) {
-    vector<tuple<int,Image*>> &vApprOld = get<0>(lshOldSpcNearestImage);
-    vector<tuple<int,Image*>> &vExactNew = get<0>(exactNewSpcNearestImage);
-    vector<tuple<int,Image*>> &vExactOld = get<0>(exactOldSpcNearestImage);
+    vector<tuple<double,Image*>> &vApprOld = get<0>(lshOldSpcNearestImage);
+    vector<tuple<double,Image*>> &vExactNew = get<0>(exactNewSpcNearestImage);
+    vector<tuple<double,Image*>> &vExactOld = get<0>(exactOldSpcNearestImage);
 
     outputFile << "Query: " << queryImg->getId() << endl;
 
@@ -80,15 +80,15 @@ void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpc
         << get<1>(vExactOld.at(0))->getId() << endl << endl;
 
 
-    outputFile << "distanceReduced: (Reduced) " << get<0>(vExactNew.at(0))
+    outputFile << "distanceReduced: (Reduced) " << (int)get<0>(vExactNew.at(0))
                << ", (Original) " << exactNewOrigDist << endl;
     if(!vApprOld.empty()) {
-        outputFile << distanceOutput(isLsh) << get<0>(vApprOld.at(0)) << endl;
+        outputFile << distanceOutput(isLsh) << (int)get<0>(vApprOld.at(0)) << endl;
     }
     else {
         outputFile << distanceOutput(isLsh) << "-" << endl;
     }
-    outputFile << "distanceTrue: " << get<0>(vExactOld.at(0)) << endl << endl;
+    outputFile << "distanceTrue: " << (int)get<0>(vExactOld.at(0)) << endl << endl;
 
 
     outputFile << "tReduced: " << get<1>(exactNewSpcNearestImage).count() / 1e6 << "s" << endl;

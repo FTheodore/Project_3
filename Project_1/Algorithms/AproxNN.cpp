@@ -1,6 +1,6 @@
 #include "AproxNN.h"
 
-tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> aproxKNN(Image* queryImage,
                                                         Lsh* structure,
                                                         int numNeighbors,
                                                         int threshold) {
@@ -38,12 +38,12 @@ tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
     auto timerDuration = duration_cast<microseconds>(stopTimer - startTimer);
 
     //gather results
-    vector<tuple<int, Image*>> result;
+    vector<tuple<double, Image*>> result;
     queue.transferToVector(&result);
     return make_tuple(result, timerDuration);
 }
 
-tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> aproxKNN(Image* queryImage,
                                                         HyperCube* structure,
                                                         int checkThrshld,
                                                         int maxProbes,
@@ -80,7 +80,7 @@ tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
     auto timerDuration = duration_cast<microseconds>(stopTimer - startTimer);
 
     //gather results
-    vector<tuple<int, Image*>> result;
+    vector<tuple<double, Image*>> result;
     queue.transferToVector(&result);
     return make_tuple(result, timerDuration);
 }

@@ -43,14 +43,14 @@ int main(int argc, char const *argv[]) {
     }
 
     //Nearest image tuple -> contains imagePtr, distance and total time of calculation
-    tuple<vector<tuple<int,Image*>>, microseconds> exactOldSpcNearestImage;
-    tuple<vector<tuple<int,Image*>>, microseconds> exactNewSpcNearestImage;
-    tuple<vector<tuple<int,Image*>>, microseconds> lshOldSpcNearestImage;
+    tuple<vector<tuple<double,Image*>>, microseconds> exactOldSpcNearestImage;
+    tuple<vector<tuple<double,Image*>>, microseconds> exactNewSpcNearestImage;
+    tuple<vector<tuple<double,Image*>>, microseconds> lshOldSpcNearestImage;
 
     vector<double> apprFactorTermsLSH;
     vector<double> apprFactorTermsReduced;
 
-    for(int i = 0; i < queryFileOldSpace.getImages()->size(); i++) {
+    for(int i = 0; i < queryFileOldSpace.getImageNum(); i++) {
         //Run exactNN algorithm on old space
         exactOldSpcNearestImage = exactNN(queryFileOldSpace.getImages()->at(i),
                                      inputFileOldSpace.getImages(),

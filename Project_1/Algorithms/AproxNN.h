@@ -17,12 +17,12 @@
 using namespace std;
 using namespace std::chrono;
 
-tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> aproxKNN(Image* queryImage,
                                                         Lsh* structure,
                                                         int numNeighbors,
                                                         int threshold);
 
-tuple<vector<tuple<int,Image*>>, microseconds> aproxKNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> aproxKNN(Image* queryImage,
                                                         HyperCube* structure,
                                                         int checkThrshld,
                                                         int maxProbes,

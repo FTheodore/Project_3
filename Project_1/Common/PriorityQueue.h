@@ -5,19 +5,20 @@
 #include <tuple>
 #include "image.h"
 #include "Distance.h"
+#include "../Added_files/Emd.h"
 
 using namespace std;
 
 class PriorityFurther { // used for nearest neighbour
 public:
-    bool operator() (tuple<int, Image *> &t1, tuple<int, Image *> &t2) {
+    bool operator() (tuple<double, Image *> &t1, tuple<double, Image *> &t2) {
         return get<0>(t1) < get<0>(t2);
     }
 };
 
 class PriorityCloser { // used for range search
 public:
-    bool operator() (tuple<int, Image *> &t1, tuple<int, Image *> &t2) {
+    bool operator() (tuple<double, Image *> &t1, tuple<double, Image *> &t2) {
         return get<0>(t1) > get<0>(t2);
     }
 };
@@ -25,14 +26,15 @@ public:
 template<class comp>
 class PriorityQueue {
 private:
-    priority_queue<tuple<int, Image *>,
-                    vector< tuple<int, Image *> >,
+    priority_queue<tuple<double, Image *>,
+                    vector< tuple<double, Image *> >,
                     comp> queue;
 
 public:
-    void tryInsert(Image *, Image *, int );
-    void transferToVector(vector<tuple<int, Image*>> *);
-    void insert(Image *, int);
+    void tryInsert(Image *queryImg, Image *newImg, int numNeighbors, bool=false,
+                   int=0, int=0, int=0, int=0);
+    void transferToVector(vector<tuple<double, Image*>> *);
+    void insert(Image *, double);
 
 };
 

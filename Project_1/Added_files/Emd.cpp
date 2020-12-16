@@ -83,12 +83,12 @@ double operations_research::emd(vector<int> * firstImg, vector<int> * secondImg,
     const MPSolver::ResultStatus result_status = solver->Solve();
     // Check that the problem has an optimal solution.
     if (result_status != MPSolver::OPTIMAL) {
-        cout << "The problem does not have an optimal solution!";
+        throw runtime_error("The problem does not have an optimal solution!\n");
     }
 
-    cout << "EMD = " << objective->Value() << endl;
-
-    return objective->Value();
+    double retVal = objective->Value();
+    delete solver;
+    return retVal;
 }
 
 double euclideanDist(tuple<int, int> firstCord, tuple<int, int> secondCord)

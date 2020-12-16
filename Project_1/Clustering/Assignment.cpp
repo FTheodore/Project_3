@@ -35,7 +35,7 @@ void lloydAssign(const vector<Cluster *> & clusters, int & assignmentsNum) {
     }
 }
 
-using searchResults = vector<tuple<int,Image*>>;
+using searchResults = vector<tuple<double,Image*>>;
 
 // return the iterator of the next image to be assigned to a cluster out of all range searches' results
 int nextIt(vector<searchResults::iterator> *iterators, vector<searchResults> * results) {

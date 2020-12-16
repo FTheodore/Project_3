@@ -16,7 +16,7 @@ private:
 public:
     Labels(string &, string &);
 
-    double correctPredictions(Image *, vector<tuple<int,Image*>> *);
+    double correctPredictions(Image *, vector<tuple<double,Image*>> *);
 };
 
 

@@ -11,12 +11,12 @@
 #include "../Structures/lsh.h"
 #include "../Structures/HyperCube.h"
 
-vector<tuple<int,Image*>> aproxRangeSrch(vector<int> * queryImage,
+vector<tuple<double,Image*>> aproxRangeSrch(vector<int> * queryImage,
                                         Lsh* structure,
                                         double radius,
                                         int threshold);
 
-vector<tuple<int, Image*>> aproxRangeSrch(vector<int> * queryImage,
+vector<tuple<double, Image*>> aproxRangeSrch(vector<int> * queryImage,
                                           HyperCube* structure,
                                           int checkThrshld,
                                           int maxProbes,

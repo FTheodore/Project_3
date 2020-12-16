@@ -34,13 +34,13 @@ void Labels::readLabels(string & fileName, bool isInput) {
     inpFile.close();
 }
 
-double Labels::correctPredictions(Image * queryImg, vector<tuple<int, Image *>> * nearestImages) {
+double Labels::correctPredictions(Image * queryImg, vector<tuple<double, Image *>> * nearestImages) {
     // label of query image
     unsigned char correctLabel = this->queryLabels.at(queryImg->getId());
     // amount of correct predictions
     int correctPreds = 0;
     // find nearest images with same label
-    for (const tuple<int,Image*> &tpl: *nearestImages) {
+    for (const tuple<double,Image*> &tpl: *nearestImages) {
         int nearestImgId = get<1>(tpl)->getId();
         if(this->inputLabels.at(nearestImgId) == correctLabel)
             ++correctPreds;

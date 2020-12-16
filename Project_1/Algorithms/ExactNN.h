@@ -16,8 +16,9 @@ using namespace std;
 using namespace std::chrono;
 
 
-tuple<vector<tuple<int,Image*>>, microseconds> exactNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> exactNN(Image* queryImage,
                                                        vector<Image *> *datasetImages,
-                                                       int numNeighbors);
+                                                       int numNeighbors, bool=false,
+                                                          int=0, int=0, int=0, int=0);
 
 #endif //PROJECT_TASK1_EXACTNN_H

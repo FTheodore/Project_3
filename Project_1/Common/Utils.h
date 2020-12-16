@@ -13,16 +13,16 @@
 using namespace std;
 using namespace std::chrono;
 
-void printResults(tuple<vector<tuple<int,Image*>>, microseconds> &apprNearestImages,
-                  tuple<vector<tuple<int,Image*>>, microseconds> &exactNearestImages,
-                  vector<tuple<int,Image*>> &apprRangeSrchImages,
+void printResults(tuple<vector<tuple<double,Image*>>, microseconds> &apprNearestImages,
+                  tuple<vector<tuple<double,Image*>>, microseconds> &exactNearestImages,
+                  vector<tuple<double,Image*>> &apprRangeSrchImages,
                   Image * queryImg,
                   bool,
                   ofstream&);
 
-void printComparison(tuple<vector<tuple<int,Image*>>, microseconds> &exactOldSpcNearestImage,
-                     tuple<vector<tuple<int,Image*>>, microseconds> &exactNewSpcNearestImage,
-                     tuple<vector<tuple<int,Image*>>, microseconds> &lshOldSpcNearestImage,
+void printComparison(tuple<vector<tuple<double,Image*>>, microseconds> &exactOldSpcNearestImage,
+                     tuple<vector<tuple<double,Image*>>, microseconds> &exactNewSpcNearestImage,
+                     tuple<vector<tuple<double,Image*>>, microseconds> &lshOldSpcNearestImage,
                      int exactNewOrigDist,
                      Image * queryImg,
                      bool isLsh,

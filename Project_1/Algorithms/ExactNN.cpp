@@ -1,8 +1,9 @@
 #include "ExactNN.h"
 
-tuple<vector<tuple<int,Image*>>, microseconds> exactNN(Image* queryImage,
+tuple<vector<tuple<double,Image*>>, microseconds> exactNN(Image* queryImage,
                                                        vector<Image *> *datasetImages,
-                                                       int numNeighbors){
+                                                       int numNeighbors, bool useEmd,
+                                                       int imgRows, int imgCols, int clstRows, int clstCols){
     PriorityQueue<PriorityFurther> queue;
 
     //Start timer
@@ -10,14 +11,14 @@ tuple<vector<tuple<int,Image*>>, microseconds> exactNN(Image* queryImage,
 
     //find all NNeighbours and save them in a priority queue
     for(int i = 0; i < datasetImages->size(); ++i)
-        queue.tryInsert(queryImage,datasetImages->at(i),numNeighbors);
+        queue.tryInsert(queryImage,datasetImages->at(i),numNeighbors,useEmd,imgRows,imgCols,clstRows,clstCols);
 
     //stop timer
     high_resolution_clock::time_point stopTimer = high_resolution_clock::now();
     auto timerDuration = duration_cast<microseconds>(stopTimer - startTimer);
 
     //gather results
-    vector<tuple<int, Image*>> result;
+    vector<tuple<double, Image*>> result;
     queue.transferToVector(&result);
     return make_tuple(result, timerDuration);
 }

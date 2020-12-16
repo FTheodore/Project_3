@@ -1,6 +1,6 @@
 #include "RangeSearch.h"
 
-vector<tuple<int,Image*>> aproxRangeSrch(vector<int> * queryImage,
+vector<tuple<double,Image*>> aproxRangeSrch(vector<int> * queryImage,
                                         Lsh* structure,
                                         double radius,
                                         int threshold) {
@@ -38,12 +38,12 @@ vector<tuple<int,Image*>> aproxRangeSrch(vector<int> * queryImage,
     }
 
     //gather results
-    vector<tuple<int, Image*>> result;
+    vector<tuple<double, Image*>> result;
     queue.transferToVector(&result);
     return result;
 }
 
-vector<tuple<int, Image*>> aproxRangeSrch(vector<int> * queryImage,
+vector<tuple<double, Image*>> aproxRangeSrch(vector<int> * queryImage,
                                           HyperCube* structure,
                                           int checkThrshld,
                                           int maxProbes,
@@ -76,7 +76,7 @@ vector<tuple<int, Image*>> aproxRangeSrch(vector<int> * queryImage,
     }
 
     //gather results
-    vector<tuple<int, Image*>> result;
+    vector<tuple<double, Image*>> result;
     queue.transferToVector(&result);
     return result;
 }

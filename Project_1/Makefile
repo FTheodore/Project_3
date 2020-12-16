@@ -8,41 +8,27 @@ OBJS_CMMN =		bucket.o CmdArgumentsReader.o dataset.o Distance.o hashFuncs.o imag
 OBJS_STRCT =	HyperCube.o lsh.o
 OBJS_ALG = 		AproxNN.o ExactNN.o RangeSearch.o
 OBJS_EMD =		Labels.o ImgClusters.o Emd.o ExactNN.o
-EXECS =			lsh cube cluster search_reduced search_emd
+EXECS =			search_reduced search_emd cluster
 
 all: $(EXECS)
 
-lsh: lsh_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
-	$(CC) *.o -o $@
-	rm $<
-
-search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
-	$(CC) *.o -o $@
+search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) $(OBJS_EMD)
+	$(CC) *.o -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 	rm $<
 
 search_emd: search_emd_main.o $(OBJS_CMMN) $(OBJS_EMD)
 	$(CC) *.o -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 	rm $<
 
-cube: cube_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) 
-	$(CC) *.o -o $@
+cluster: cluster_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) $(OBJS_CLSTRNG) $(OBJS_EMD)
+	$(CC) *.o -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 	rm $<
-
-cluster: cluster_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) $(OBJS_CLSTRNG)
-	$(CC) *.o -o $@
-	rm $<
-
-search_emd_main.o: ./Mains/search_emd_main.cpp
-	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
-
-Emd.o: ./Added_files/Emd.cpp ./Added_files/Emd.h
-	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 
 %.o: %.cpp %.h
-	$(CC) $(FLAGS) $< -o $@
+	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 
 %.o: %.cpp
-	$(CC) $(FLAGS) $< -o $@
+	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 
 clean:
 	rm -rf $(EXECS) *.o

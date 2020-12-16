@@ -65,9 +65,9 @@ int main(int argc, char const * argv[]) {
         }
 
         //Nearest image tuple -> contains imagePtr, distance and total time of calculation
-        tuple<vector<tuple<int,Image*>>, microseconds> exactNearestImages;
-        tuple<vector<tuple<int,Image*>>, microseconds> apprNearestImages;
-        vector<tuple<int,Image*>> apprRangeSrchImages;
+        tuple<vector<tuple<double,Image*>>, microseconds> exactNearestImages;
+        tuple<vector<tuple<double,Image*>>, microseconds> apprNearestImages;
+        vector<tuple<double,Image*>> apprRangeSrchImages;
         for(int i = 0; i < queryFile.getImages()->size(); i++) {
             //Run exactNN algorithm
             exactNearestImages = exactNN(queryFile.getImages()->at(i),
