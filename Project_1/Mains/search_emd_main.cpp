@@ -28,7 +28,7 @@ int main(int argc, char const *argv[]) {
         throw runtime_error("File " + string(args.outputFile) + " cannot be opened.");
     }
 
-    emd(inputFile.getImages()->at(0)->getPixels(),
+    operations_research::emd(inputFile.getImages()->at(0)->getPixels(),
         queryFile.getImages()->at(0)->getPixels(),
         inputFile.getRows(),inputFile.getCols(),7,7);
 

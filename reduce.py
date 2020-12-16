@@ -15,7 +15,7 @@ assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
-#Get arguments from user
+# get arguments from user
 def readArgs():
     datasetGiven = False
     outDatasetGiven = False
@@ -47,7 +47,7 @@ def readArgs():
 
     return dataset, outDataset, query, outQuery
 
-#Normalize vector to [0, 25500]
+# normalize vector to [0, 25500]
 def minMaxNormalize(vec):
     vec_normd = []
 
@@ -57,7 +57,7 @@ def minMaxNormalize(vec):
 
     return vec_normd
 
-#Normalize all vectors
+# normalize all vectors
 def normVecs(vecs):
     toRet = []
 
@@ -78,7 +78,7 @@ def saveLatentVectors(out, latent_dim, img_num, vectors):
 
         for vec in vectors:
             for elem in vec:
-                fl.write(elem.to_bytes(2, byteorder='big')) #write pixel value
+                fl.write(elem.to_bytes(2, byteorder='big')) # write pixel value
 
 
 if __name__=='__main__':

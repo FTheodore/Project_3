@@ -21,7 +21,7 @@ search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 	rm $<
 
 search_emd: search_emd_main.o $(OBJS_CMMN) $(OBJS_EMD)
-	$(CC) *.o -o $@
+	$(CC) *.o -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 	rm $<
 
 cube: cube_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) 
@@ -31,6 +31,12 @@ cube: cube_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 cluster: cluster_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) $(OBJS_CLSTRNG)
 	$(CC) *.o -o $@
 	rm $<
+
+search_emd_main.o: ./Mains/search_emd_main.cpp
+	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
+
+Emd.o: ./Added_files/Emd.cpp ./Added_files/Emd.h
+	$(CC) $(FLAGS) $< -o $@ -I or-tools/include/ -L or-tools/lib/ -lortools
 
 %.o: %.cpp %.h
 	$(CC) $(FLAGS) $< -o $@

@@ -1,6 +1,6 @@
 #include "Emd.h"
 
-double emd(vector<int> * firstImg, vector<int> * secondImg, int imageRows, int imageCols, int clstRows, int clstCols)
+double operations_research::emd(vector<int> * firstImg, vector<int> * secondImg, int imageRows, int imageCols, int clstRows, int clstCols)
 {
     //Construct the clusters
     ImgClusters firstImgClstrs(firstImg, imageRows, imageCols, clstRows, clstCols);
