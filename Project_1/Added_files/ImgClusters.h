@@ -14,12 +14,12 @@ private:
     // each cluster is a tuple of coordinates and normalized weight i.e. brightness
     vector<tuple<tuple<int,int>, double>> clusters;
 
-    int findClustBrightness(Image *, int, int, int);
+    int findClustBrightness(vector<int> *, int, int, int);
     tuple<int, int> findClustRepresentative(int, int);
-    void findClusters(Image *, int, int);
+    void findClusters(vector<int> *, int, int);
 
 public:
-    ImgClusters(Image *, int, int, int, int);
+    ImgClusters(vector<int> *, int, int, int, int);
     vector<tuple<tuple<int,int>, double>> * getClusters();
 };
 

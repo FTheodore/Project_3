@@ -1,6 +1,6 @@
 #include "Emd.h"
 
-double emd(Image * firstImg, Image * secondImg, int imageRows, int imageCols, int clstRows, int clstCols)
+double emd(vector<int> * firstImg, vector<int> * secondImg, int imageRows, int imageCols, int clstRows, int clstCols)
 {
     //Construct the clusters
     ImgClusters firstImgClstrs(firstImg, imageRows, imageCols, clstRows, clstCols);

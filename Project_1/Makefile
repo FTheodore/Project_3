@@ -21,7 +21,7 @@ search_reduced: search_reduced_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG)
 	rm $<
 
 search_emd: search_emd_main.o $(OBJS_CMMN) $(OBJS_EMD)
-	$(CC) *.o -o $@ -lm
+	$(CC) *.o -o $@
 	rm $<
 
 cube: cube_main.o $(OBJS_CMMN) $(OBJS_STRCT) $(OBJS_ALG) 
