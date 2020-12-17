@@ -10,6 +10,26 @@ vector<Cluster *> * makeClusters(vector<Image *> *centroids, int numClusters) {
     return vec;
 }
 
+vector<Cluster *> * makeClustersFromFile(vector<Image *> * images,
+                                         const string & clustFile, const int & dimension) {
+    vector<Cluster *> * vec = new vector<Cluster *>;
+
+    // open file with clusters' info
+    ifstream inpFile(clustFile);
+    if(!inpFile.is_open())
+        throw runtime_error("File " + clustFile + " cannot be opened.");
+
+    string line;
+    while (getline(inpFile,line)) {
+        if(line.find("CLUSTER")==string::npos || line.find("size: 0")!=string::npos) {
+            continue;
+        }
+        Cluster * newClust = new Cluster(images, line, dimension);
+        vec->push_back(newClust);
+    }
+    return vec;
+}
+
 void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<int> *> *vec) {
     for (int i = 0; i < clusters.size(); ++i)
         vec->push_back(clusters.at(i)->getCentroid());
@@ -43,6 +63,37 @@ Cluster::Cluster(Image * centroidImg) {
     this->centrIsInDataset = true;
     this->firstCentroidPtr = centroidImg; // keep the Image for the centroid update
     this->imgs_in_cluster = new unordered_map<int,Image *>;
+}
+
+Cluster::Cluster(vector<Image *> * images, const string & infoLine, int dimension) {
+    this->centrIsInDataset = false;
+    this->firstCentroidPtr = nullptr;
+    this->imgs_in_cluster = new unordered_map<int,Image *>;
+
+    // process image id's from clusters' file and add them to current cluster
+    std::istringstream iss(infoLine);
+    string token;
+    bool sizeNext = false;
+    while(iss >> token) {
+        if (token.find("CLUSTER")!=string::npos ||
+            sizeNext) {
+            if (sizeNext) {
+                sizeNext = false;
+            }
+            continue;
+        } else if(token.find("size")!=string::npos) {
+            sizeNext = true;
+            continue;
+        }
+
+        string idStr = token.substr(0, token.length()-1);
+        int imgId = stoi(idStr);
+
+        this->addImg(images->at(imgId));
+
+    }
+
+    this->centroid = getMedian(this->imgs_in_cluster, dimension);
 }
 
 

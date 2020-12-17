@@ -244,3 +244,66 @@ SearchEmdArguments::SearchEmdArguments(const int & argc, char ** argv) {
     this->getFromTTY(argc, argv);
     this->getFromUser();
 }
+
+
+void ClusteringArguments::getFromTTY(const int & argc, char ** argv) {
+    for(int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i], "-D") == 0)
+        {
+            this->inputFileOriginalSpc = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-i") == 0 || strcmp(argv[i], "-I") == 0)
+        {
+            this->inputFileNewSpc = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-n") == 0 || strcmp(argv[i], "-N") == 0)
+        {
+            this->clustersFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-c") == 0 || strcmp(argv[i], "-C") == 0)
+        {
+            this->configFile = argv[i+1];
+        }
+        else if(strcmp(argv[i],"-o") == 0 || strcmp(argv[i], "-O") == 0)
+        {
+            this->outputFile = argv[i+1];
+        }
+    }
+}
+void ClusteringArguments::getFromUser() {
+    if(this->inputFileOriginalSpc.empty()) {
+        cout << "Insert path of input file of original space: ";
+        cin >> this->inputFileOriginalSpc;
+        cout << endl;
+    }
+
+    if(this->inputFileNewSpc.empty()) {
+        cout << "Insert path of input file of new space: ";
+        cin >> this->inputFileNewSpc;
+        cout << endl;
+    }
+
+    if(this->clustersFile.empty()) {
+        cout << "Insert path of clusters file: ";
+        cin >> this->clustersFile;
+        cout << endl;
+    }
+
+    if(this->configFile.empty()) {
+        cout << "Insert path of configuration file: ";
+        cin >> this->configFile;
+        cout << endl;
+    }
+
+    if(this->outputFile.empty()) {
+        cout << "Insert path of output file: ";
+        cin >> this->outputFile;
+        cout << endl;
+    }
+}
+
+ClusteringArguments::ClusteringArguments(const int & argc, char ** argv) {
+    this->getFromTTY(argc, argv);
+    this->getFromUser();
+}

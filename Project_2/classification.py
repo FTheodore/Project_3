@@ -9,6 +9,8 @@ from sklearn.metrics import classification_report
 import numpy as np
 import json
 
+from collections import Counter
+
 import os
 if os.getcwd().split('/')[-1] == 'Project_2':
     from classification_utils import *
@@ -20,9 +22,9 @@ else:
     from .utils import plotLoss
 
 # gpu fix
-# physical_devices = tf.config.experimental.list_physical_devices('GPU')
-# assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
-# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 # process the model created from first part and get the encoding part only
 def encoder(autoencoder, input, dropAftrConv=False, dropProb=None):
@@ -49,6 +51,26 @@ def fullyConnected(NN, fcNodes, drop=False, dropProb=None):
     # 10 classes, i.e. numbers from range 0-9
     # softmax is used since we have multinomial classification
     return Dense(10, activation='softmax')(NN) # add output layer
+
+
+# ADDED FOR PROJECT 3. CLUSTERING TASK
+def makeClusters(predictions):
+    outputFile = input("Cluster file path: ")
+
+    # get sizes of each cluster
+    clust_sizes = Counter(predictions)
+
+    with open(outputFile, "w") as fl:
+        for clustId in range(1, 11):
+            fl.write("CLUSTER-"+str(clustId)+" {size: "+str(clust_sizes[clustId-1]))
+
+            imgIds = np.where(predictions == clustId-1)
+
+            for id in imgIds[0]:
+                fl.write(", "+str(id))
+
+            fl.write("}\n\n")
+
 
 if __name__=='__main__':
     save = [] # for every experiment keep hyperparameters and losses for plotting
@@ -189,11 +211,13 @@ if __name__=='__main__':
                     json.dump(save[-1], fl)
             elif doNext == 6: # save losses for research purposes (check notebooks)
                 np.save(input('Enter path: '),errors)
+            elif doNext == 8:
+                test_pred = classifier.predict(test) # predict classes of images in test set
+                test_pred = np.argmax(test_pred,axis=1) # get class with highest softmax probability
+                # save clusters' info to file
+                makeClusters(test_pred)
 
         if doNext == 7: # exit
             break
-
-
-
 
 

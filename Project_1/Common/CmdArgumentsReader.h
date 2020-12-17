@@ -81,6 +81,19 @@ public:
     void getFromUser();
 };
 
+class ClusteringArguments{
+public:
+    string inputFileOriginalSpc;
+    string inputFileNewSpc;
+    string clustersFile;
+    string configFile;
+    string outputFile;
+
+    ClusteringArguments(const int &, char **);
+    void getFromTTY(const int &, char **);
+    void getFromUser();
+};
+
 LshCmdVariables* setLshArguments(int argc, char const *argv[]);
 CubeCmdVariables* setCubeArguments(int argc, char const *argv[]);
 ClusterCmdVariables* setClusterArguments(int argc, char const *argv[]);

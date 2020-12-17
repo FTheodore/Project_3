@@ -163,9 +163,10 @@ Enter one of 1, 2, 3, 4, 5:
 \t5) save model
 \t6) save losses during training (for research)
 \t7) exit
+\t8) make cluster file
 """
     action = input(prompt)
-    while action not in {'1','2','3','4','5','6','7'}:
+    while action not in {'1','2','3','4','5','6','7', '8'}:
         action = input("Wrong input, enter again: ")
 
     return int(action)

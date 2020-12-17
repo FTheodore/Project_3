@@ -12,27 +12,16 @@ using namespace std;
 using namespace std::chrono;
 
 int main(int argc, char const *argv[]) {
-    ClusterCmdVariables *clusterCmdVariables = setClusterArguments(argc, argv);
+    // tty or cin arguments needed for clustering
+    ClusteringArguments args(argc, (char **)argv);
 
-    //Ask from user the path of dataset
-    if (clusterCmdVariables->inputFileName.empty()) {
-        cout << "Insert path of dataset file: ";
-        cin >> clusterCmdVariables->inputFileName;
-        cout << endl;
-    }
-    Dataset inputFile(clusterCmdVariables->inputFileName, 1);
-
-    //Ask from user the path of config file
-    if (clusterCmdVariables->configFileName.empty()) {
-        cout << "Insert path of cluster config file: ";
-        cin >> clusterCmdVariables->configFileName;
-        cout << endl;
-    }
+    Dataset inputFileOldSpace(args.inputFileOriginalSpc, 1);
+    Dataset inputFileNewSpace(args.inputFileNewSpc, 2);
 
     //Extract config file info
-    Config* conf = extractConfInfo(clusterCmdVariables->configFileName);
+    Config* conf = extractConfInfo(args.configFile);
     if(conf->numClusters < 1)
-        throw runtime_error("Num of clusters must be > 0\n Please check "+ clusterCmdVariables->configFileName);
+        throw runtime_error("Num of clusters must be > 0\n Please check "+ args.configFile);
 
     int clust_threshold, w_smpl_prcnt, w_factor, approx_threshold, clust_iters;
     readParams(w_smpl_prcnt,w_factor,
@@ -40,49 +29,18 @@ int main(int argc, char const *argv[]) {
                true,&clust_threshold,
                true, &clust_iters);
 
-    //Calculate W
-    double W = calcW(inputFile.getImages(),w_smpl_prcnt, inputFile.getImageNum());
+    // perform lloyd's assignment
+    const string method = "Classic";
 
-//    cout << "W: " << w_factor*W << endl;
 
-    //Construct structure based on given method
-    Lsh *lsh = nullptr;
-    HyperCube *hpcb = nullptr;
-
-    string &method = clusterCmdVariables->method;
-    if (method.empty()) {
-        cout << "Insert method of cluster assignment(Classic or LSH or Hypercube): ";
-        cin >> method;
-        cout << endl;
-    }
-    if(method != "LSH" && method != "Hypercube" && method != "Classic")
-        throw runtime_error("Wrong assignment method given!");
-
-    if(method == "LSH") {
-        cout << "Building Lsh Structure... " << endl;
-        lsh = new Lsh(conf->numHashTables, inputFile.getImageNum(), inputFile.getImages(),
-            inputFile.getDimensions(), w_factor*W, conf->numHashFunctions);
-        cout << "Done" << endl;
-    }
-    else if (method == "Hypercube") {
-        cout << "Building Hypercube Structure... " << endl;
-        hpcb = new HyperCube(inputFile.getDimensions(),
-                            w_factor*W,
-                            pow(2, 32 / conf->cubeDim),
-                            conf->cubeDim,
-                            inputFile.getImageNum(),
-                            inputFile.getImages());
-        cout << "Done" << endl;
-    }
-
-    //Start clustering algorithm
+    //Run clustering algorithm on original space
+    cout << "Clustering on original space..." << endl;
     //start timer
     high_resolution_clock::time_point startTimer = high_resolution_clock::now();
 
-    //Run cluster algorithm
-    vector<Cluster *> * clusters = clustering(method,*inputFile.getImages(),
-                                              inputFile.getImages(), conf->numClusters,
-                                              conf->imgsThresh, conf->probes, lsh, hpcb,
+    vector<Cluster *> * clustersOrigSpc = clustering(method,*inputFileOldSpace.getImages(),
+                                              inputFileOldSpace.getImages(), conf->numClusters,
+                                              conf->imgsThresh, conf->probes, nullptr, nullptr,
                                               approx_threshold, clust_threshold, clust_iters);
 
     //stop timer
@@ -90,40 +48,55 @@ int main(int argc, char const *argv[]) {
     auto timerDuration = duration_cast<microseconds>(stopTimer - startTimer);
 
     //Calc duration
-    string durResult = to_string(timerDuration.count() / 1e6) + "s";
-
-    cout << "Calculating Silhouette..." << endl;
-
-    //Calculate silhouette
-    vector<double> silhouetteRes = silhouette(*clusters);
-
-    cout << "Done" << endl;
+    string durResultOriginalSpc = to_string(timerDuration.count() / 1e6) + "s";
+    cout << "Done" << endl << endl;
 
 
-    string &outputFile = clusterCmdVariables->outputFileName;
-    if (outputFile.empty()) {
-        cout << "Insert path of output file: ";
-        cin >> outputFile;
-        cout << endl;
-    }
-    //Print cluster results
-    printClstrRslts(clusterCmdVariables->outputFileName, clusterCmdVariables->method,
-                    clusters, durResult, &silhouetteRes,
-                    clusterCmdVariables->complete);
+    //Run clustering algorithm on new space
+    cout << "Clustering on new space..." << endl;
+    //start timer
+    startTimer = high_resolution_clock::now();
+
+    vector<Cluster *> * clustersNewSpc = clustering(method,*inputFileNewSpace.getImages(),
+                                              inputFileNewSpace.getImages(), conf->numClusters,
+                                              conf->imgsThresh, conf->probes, nullptr, nullptr,
+                                              approx_threshold, clust_threshold, clust_iters);
+
+    //stop timer
+    stopTimer = high_resolution_clock::now();
+    timerDuration = duration_cast<microseconds>(stopTimer - startTimer);
+
+    //Calc duration
+    string durResultNewSpc = to_string(timerDuration.count() / 1e6) + "s";
+    cout << "Done" << endl << endl;
+
+    cout << "Creating clusters from classification..." << endl;
+    vector<Cluster *> * clustersClassify = makeClustersFromFile(inputFileOldSpace.getImages(),
+                                                                args.clustersFile,
+                                                                inputFileOldSpace.getDimensions());
+    cout << "Done" << endl << endl;
+
+    cout << "Calculating Silhouettes..." << endl;
+
+    //Calculate silhouettes
+    vector<double> silhouetteResOrig = silhouette(*clustersOrigSpc);
+
+    vector<double> silhouetteResNew = silhouette(*clustersNewSpc);
+
+    vector<double> silhouetteResClass = silhouette(*clustersClassify);
+
+    cout << "Done" << endl << endl;
 
     //Free allocated memory
-    for (Cluster* const &clst: *clusters) {
+    for (Cluster* const &clst: *clustersOrigSpc) {
         delete clst;
     }
-    delete clusters;
+    for (Cluster* const &clst: *clustersNewSpc) {
+        delete clst;
+    }
+    delete clustersOrigSpc;
+    delete clustersNewSpc;
     delete conf;
-
-    if(method == "LSH")
-        delete lsh;
-    else if(method == "Hypercube")
-        delete hpcb;
-
-    delete clusterCmdVariables;
 
     return 0;
 }
