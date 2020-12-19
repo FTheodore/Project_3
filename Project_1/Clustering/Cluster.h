@@ -33,8 +33,8 @@ void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<int> *> *
 int getImgCluster(const vector<Cluster *> & clusters, Image * img);
 bool imgIsCentroid(const vector<Cluster *> & clusters, Image * img);
 
-void printClstrRslts(string &outFilename, string &method, vector<Cluster *> * clusters,
-                     string &dur, vector<double> *silhouetteRes,
-                     bool complete);
+void printClstrRslts(ofstream & outputFile, vector<Cluster *> * clusters,
+                     string *dur, vector<double> *silhouetteRes,
+                     const int & objective, bool classification, bool newSpace = false);
 
 #endif //PROJECT_TASK1_CLUSTER_H

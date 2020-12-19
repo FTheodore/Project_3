@@ -3,6 +3,7 @@
 
 #include "Cluster.h"
 
-vector<double> silhouette(const vector<Cluster *> & clusters);
+vector<double> silhouette(const vector<Cluster *> & clusters,
+                          const bool & newSpace=false, vector<Image *> * imgsOldSpace= nullptr);
 
 #endif //PROJECT_TASK1_SILHOUETTE_H

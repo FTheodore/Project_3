@@ -7,6 +7,7 @@
 #include "../Clustering/algorithm.h"
 #include "../Clustering/Silhouette.h"
 #include "../Clustering/Config.h"
+#include "../Clustering/Objective.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -81,21 +82,46 @@ int main(int argc, char const *argv[]) {
     //Calculate silhouettes
     vector<double> silhouetteResOrig = silhouette(*clustersOrigSpc);
 
-    vector<double> silhouetteResNew = silhouette(*clustersNewSpc);
+    vector<double> silhouetteResNew = silhouette(*clustersNewSpc, true, inputFileOldSpace.getImages());
 
     vector<double> silhouetteResClass = silhouette(*clustersClassify);
 
     cout << "Done" << endl << endl;
 
+    cout << "Calculating Objective Function Values..." << endl;
+
+    //Calculate objective values
+    int objOriginal = calcObjective(*clustersOrigSpc);
+
+    int objNew = calcObjective(*clustersNewSpc, true, inputFileOldSpace.getImages());
+
+    int objClassify = calcObjective(*clustersClassify);
+
+    cout << "Done" << endl << endl;
+
+    //Open output file
+    ofstream outputFile;
+    outputFile.open(args.outputFile);
+    if (!outputFile.is_open()) {
+        throw runtime_error("File " + string(args.outputFile) + " cannot be opened.");
+    }
+
+    printClstrRslts(outputFile, clustersOrigSpc, &durResultOriginalSpc,
+                    &silhouetteResOrig, objOriginal, false);
+    printClstrRslts(outputFile, clustersNewSpc, &durResultNewSpc,
+                    &silhouetteResNew, objNew, false, true);
+    printClstrRslts(outputFile, clustersClassify, nullptr,
+                    &silhouetteResClass, objClassify, true);
+
+    outputFile.close();
+
     //Free allocated memory
-    for (Cluster* const &clst: *clustersOrigSpc) {
-        delete clst;
-    }
-    for (Cluster* const &clst: *clustersNewSpc) {
-        delete clst;
-    }
+    for (Cluster* const &clst: *clustersOrigSpc) delete clst;
+    for (Cluster* const &clst: *clustersNewSpc) delete clst;
+    for (Cluster* const &clst: *clustersClassify) delete clst;
     delete clustersOrigSpc;
     delete clustersNewSpc;
+    delete clustersClassify;
     delete conf;
 
     return 0;

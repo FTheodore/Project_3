@@ -32,6 +32,19 @@ int closestClusterIdx(Image * img, vector<vector<int> *> *centroids) {
     return clustIdx;
 }
 
+int closestImgToCentroid(unordered_map<int, Image *>* clustImgs, vector<int> *centroid) {
+    int minDistance = numeric_limits<int>::max();
+    int imgId;
+    for (pair<const int, Image *> & pair: *clustImgs) {
+        int newDist = manhattanDistance(pair.second->getPixels(), centroid);
+        if(minDistance > newDist) {
+            minDistance = newDist;
+            imgId = pair.second->getId();
+        }
+    }
+    return imgId;
+}
+
 int minCentroidDist(vector<vector<int> *> *centroids) {
     int minDistance = numeric_limits<int>::max();
 

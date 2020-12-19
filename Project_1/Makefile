@@ -3,7 +3,7 @@ vpath %.cpp ./Common ./Algorithms ./Clustering/ ./Structures ./Added_files ./Mai
 
 CC =			g++
 FLAGS = 		-c -std=c++11
-OBJS_CLSTRNG =	algorithm.o Assignment.o Cluster.o Config.o Silhouette.o UtilsCluster.o
+OBJS_CLSTRNG =	algorithm.o Assignment.o Cluster.o Config.o Silhouette.o UtilsCluster.o Objective.o
 OBJS_CMMN =		bucket.o CmdArgumentsReader.o dataset.o Distance.o hashFuncs.o image.o PriorityQueue.o Utils.o
 OBJS_STRCT =	HyperCube.o lsh.o
 OBJS_ALG = 		AproxNN.o ExactNN.o RangeSearch.o

@@ -18,4 +18,6 @@ int closestClusterIdx(Image * img, vector<vector<int> *> *centroids);
 
 int minCentroidDist(vector<vector<int> *> *centroids);
 
+int closestImgToCentroid(unordered_map<int, Image *>* clustImgs, vector<int> *centroid);
+
 #endif //PROJECT_TASK1_UTILSCLUSTER_H
