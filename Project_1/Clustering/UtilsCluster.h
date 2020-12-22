@@ -14,10 +14,10 @@ int binSearch(const vector<double> &probs, int start, int end, const double &val
 
 vector<Image *> kMeansPPlus(vector<Image *> *imgs, int numOfCentroids);
 
-vector<int> * centroidOnOldSpace(unordered_map<int, Image *>* clustImgs, vector<Image *> *imagesOldSpace);
+int closestClusterIdx(Image * img, vector<vector<int> *> *centroids);
 
 int minCentroidDist(vector<vector<int> *> *centroids);
 
-int closestImgToCentroid(unordered_map<int, Image *>* clustImgs, vector<int> *centroid);
+vector<int> * centroidOnOldSpace(unordered_map<int, Image *>* clustImgs, vector<Image *> *imagesOldSpace);
 
 #endif //PROJECT_TASK1_UTILSCLUSTER_H

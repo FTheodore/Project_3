@@ -32,15 +32,6 @@ int closestClusterIdx(Image * img, vector<vector<int> *> *centroids) {
     return clustIdx;
 }
 
-vector<int> * centroidOnOldSpace(unordered_map<int, Image *>* clustImgs, vector<Image *> *imagesOldSpace) {
-    unordered_map<int, Image *> clustImgsOldSpace;
-    // find image vectors on original dimension
-    for (pair<const int, Image *> & pair: *clustImgs) {
-        clustImgsOldSpace.insert(make_pair(pair.second->getId(), imagesOldSpace->at(pair.second->getId())));
-    }
-    return getMedian(&clustImgsOldSpace, imagesOldSpace->at(0)->getPixels()->size());
-}
-
 int minCentroidDist(vector<vector<int> *> *centroids) {
     int minDistance = numeric_limits<int>::max();
 
@@ -141,4 +132,13 @@ vector<Image *> kMeansPPlus(vector<Image *> *imgs, int numOfCentroids) {
     }
 
     return centroids;
+}
+
+vector<int> * centroidOnOldSpace(unordered_map<int, Image *>* clustImgs, vector<Image *> *imagesOldSpace) {
+    unordered_map<int, Image *> clustImgsOldSpace;
+    // find image vectors on original dimension
+    for (pair<const int, Image *> & pair: *clustImgs) {
+        clustImgsOldSpace.insert(make_pair(pair.second->getId(), imagesOldSpace->at(pair.second->getId())));
+    }
+    return getMedian(&clustImgsOldSpace, imagesOldSpace->at(0)->getPixels()->size());
 }
