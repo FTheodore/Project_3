@@ -24,7 +24,11 @@ int calcObjective(const vector<Cluster *> & clusters, bool newSpace, vector<Imag
     for (Cluster * clust: clusters) {
         unordered_map<int, Image *> * clustImgs = clust->getClusterImgs();
         for (pair<const int, Image *> & pair: *clustImgs) {
-            objective += closestClusterDist(pair.second, &centroids);
+            if(!newSpace)
+                objective += closestClusterDist(pair.second, &centroids);
+            else
+                objective += closestClusterDist(oldImgs->at(pair.second->getId()), &centroids);
+
         }
     }
 
