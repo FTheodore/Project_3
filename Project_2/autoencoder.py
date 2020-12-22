@@ -7,6 +7,7 @@ from keras.optimizers import Adam, RMSprop
 from keras.utils import normalize
 from sklearn.model_selection import train_test_split
 from collections import deque
+import json
 
 from utils import *
 from input import readImages,getNNParams,getImgFileName,getTrainParams
@@ -147,6 +148,9 @@ if __name__ == '__main__':
                     autoencoder.fit(images, images, batch_size=batchSize,\
                                 epochs=epochs)
                 models.save_model(autoencoder, input('Enter path: '))
+                json_f = input('Enter path of json file with training info: ')
+                with open(json_f, 'w') as fl:
+                    json.dump(save[-1], fl)
             elif doNext == 5: # save losses for research purposes (check notebooks)
                 np.save(input('Enter path: '),errors.history)
 
