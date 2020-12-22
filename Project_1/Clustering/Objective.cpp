@@ -1,18 +1,10 @@
 #include "Objective.h"
 
 // find cluster distance that is closest to the corresponding image
-int closestClusterDist(Image * img, const vector<Cluster *> & clusters, bool newSpace, vector<Image *> * oldImages) {
+int closestClusterDist(Image * img, vector<vector<int> *> * centroids) {
     int minDistance = numeric_limits<int>::max();
-    for (int i = 0; i < clusters.size(); ++i) {
-        int newDist;
-        if(!newSpace)
-            newDist = manhattanDistance(img->getPixels(), clusters.at(i)->getCentroid());
-        else {
-            // centroid on old space will be closest img to centroid on new space
-            int closestImgId = closestImgToCentroid(clusters.at(i)->getClusterImgs(), clusters.at(i)->getCentroid());
-            newDist = manhattanDistance(oldImages->at(img->getId())->getPixels(),
-                                        oldImages->at(closestImgId)->getPixels());
-        }
+    for (vector<int> * centroid: *centroids) {
+        int newDist = manhattanDistance(img->getPixels(), centroid);
         if(minDistance > newDist) {
             minDistance = newDist;
         }
@@ -22,12 +14,23 @@ int closestClusterDist(Image * img, const vector<Cluster *> & clusters, bool new
 
 // calculates objective function value
 int calcObjective(const vector<Cluster *> & clusters, bool newSpace, vector<Image *> * oldImgs) {
+    vector<vector<int> *> centroids;
+    if(!newSpace)
+        gatherCentroids(clusters, &centroids);
+    else
+        gatherCentroidsOldSpc(clusters, &centroids, oldImgs);
+
     int objective = 0;
-    for (int i = 0; i < clusters.size(); ++i) {
-        unordered_map<int, Image *> * clustImgs = clusters.at(i)->getClusterImgs();
+    for (Cluster * clust: clusters) {
+        unordered_map<int, Image *> * clustImgs = clust->getClusterImgs();
         for (pair<const int, Image *> & pair: *clustImgs) {
-            objective += closestClusterDist(pair.second, clusters, newSpace, oldImgs);
+            objective += closestClusterDist(pair.second, &centroids);
         }
     }
+
+    if(newSpace) {
+        for(vector<int> * centroid: centroids) delete centroid;
+    }
+
     return objective;
 }

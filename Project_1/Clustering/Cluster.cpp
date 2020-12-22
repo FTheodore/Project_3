@@ -35,6 +35,12 @@ void gatherCentroids(const vector<Cluster *> & clusters, vector<vector<int> *> *
         vec->push_back(clusters.at(i)->getCentroid());
 }
 
+void gatherCentroidsOldSpc(const vector<Cluster *> & clusters, vector<vector<int> *> *vec,
+                           vector<Image*> * imagesOldSpc) {
+    for (int i = 0; i < clusters.size(); ++i)
+        vec->push_back(centroidOnOldSpace(clusters.at(i)->getClusterImgs(), imagesOldSpc));
+}
+
 //Get index of current cluster of the image
 int getImgCluster(const vector<Cluster *> & clusters, Image * img) {
     int toRet = -1;

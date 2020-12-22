@@ -37,4 +37,7 @@ void printClstrRslts(ofstream & outputFile, vector<Cluster *> * clusters,
                      string *dur, vector<double> *silhouetteRes,
                      const int & objective, bool classification, bool newSpace = false);
 
+void gatherCentroidsOldSpc(const vector<Cluster *> & clusters, vector<vector<int> *> *vec,
+                           vector<Image*> * imagesOldSpc);
+
 #endif //PROJECT_TASK1_CLUSTER_H

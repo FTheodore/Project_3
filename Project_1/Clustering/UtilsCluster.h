@@ -14,7 +14,7 @@ int binSearch(const vector<double> &probs, int start, int end, const double &val
 
 vector<Image *> kMeansPPlus(vector<Image *> *imgs, int numOfCentroids);
 
-int closestClusterIdx(Image * img, vector<vector<int> *> *centroids);
+vector<int> * centroidOnOldSpace(unordered_map<int, Image *>* clustImgs, vector<Image *> *imagesOldSpace);
 
 int minCentroidDist(vector<vector<int> *> *centroids);
 

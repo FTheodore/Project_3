@@ -1,22 +1,14 @@
 #include "Silhouette.h"
 
 //Return index of closest neighbour cluster, used for calculation of b(i)
-int neighborClusterIdx(Image * img, const vector<Cluster *> & clusters, int imgClusterIdx,
-                       const bool & newSpace, vector<Image *> * imgsOldSpace) {
+int neighborClusterIdx(Image * img, vector<vector<int> *> *centroids, int imgClusterIdx) {
     int minDistance = numeric_limits<int>::max();
     int clustIdx;
-    for (int i = 0; i < clusters.size(); ++i) {
+    for (int i = 0; i < centroids->size(); ++i) {
         if(i == imgClusterIdx)
             continue;
-        int newDist;
-        if(!newSpace)
-            newDist = manhattanDistance(img->getPixels(), clusters.at(i)->getCentroid());
-        else{
-            int closestImgId = closestImgToCentroid(clusters.at(i)->getClusterImgs(), clusters.at(i)->getCentroid());
-            newDist = manhattanDistance(imgsOldSpace->at(img->getId())->getPixels(),
-                                        imgsOldSpace->at(closestImgId)->getPixels());
+        int newDist = manhattanDistance(img->getPixels(), centroids->at(i));
 
-        }
         if(minDistance > newDist) {
             minDistance = newDist;
             clustIdx = i;
@@ -46,11 +38,9 @@ double avgL1Dist(Image *img, unordered_map<int, Image *> *imgs,
 
 //Calculate silhouette of an object
 double silhouetteObject(Image * img, const vector<Cluster *> & clusters, int imgClusterIdx,
-                        const bool & newSpace, vector<Image *> * imgsOldSpace) {
-    vector<vector<int> *> centroids;
-    gatherCentroids(clusters,&centroids);
-
-    int neighorClst = neighborClusterIdx(img, clusters, imgClusterIdx, newSpace, imgsOldSpace);
+                        const bool & newSpace, vector<Image *> * imgsOldSpace,
+                        vector<vector<int> *> * centroids) {
+    int neighorClst = neighborClusterIdx(img, centroids, imgClusterIdx);
 
     double a_i = avgL1Dist(img, clusters.at(imgClusterIdx)->getClusterImgs(), newSpace, imgsOldSpace);
 
@@ -63,11 +53,12 @@ double silhouetteObject(Image * img, const vector<Cluster *> & clusters, int img
 
 //Calculate silhouette of a cluster
 double silhouetteCluster(const vector<Cluster *> & clusters, int clusterIdx,
-                         const bool & newSpace, vector<Image *> * imgsOldSpace) {
+                         const bool & newSpace, vector<Image *> * imgsOldSpace,
+                         vector<vector<int> *> * centroids) {
     double sum = 0;
     for(const pair<const int, Image*> &img : *clusters.at(clusterIdx)->getClusterImgs()) {
         sum += silhouetteObject(img.second, clusters, clusterIdx,
-                                newSpace, imgsOldSpace);
+                                newSpace, imgsOldSpace, centroids);
     }
 
     return sum/clusters.at(clusterIdx)->getClusterImgs()->size();
@@ -76,16 +67,27 @@ double silhouetteCluster(const vector<Cluster *> & clusters, int clusterIdx,
 //Calculate all silhouettes [s1,...,si,...,sΚ, stotal]
 vector<double> silhouette(const vector<Cluster *> & clusters,
                           const bool & newSpace, vector<Image *> * imgsOldSpace) {
+    vector<vector<int> *> centroids;
+    if(!newSpace)
+        gatherCentroids(clusters, &centroids);
+    else
+        gatherCentroidsOldSpc(clusters, &centroids, imgsOldSpace);
+
     double sum = 0;
     vector<double> toRet;
     toRet.reserve(clusters.size()+1);
     for(int i = 0; i < clusters.size(); ++i) {
-        double s_i = silhouetteCluster(clusters, i, newSpace, imgsOldSpace);
+        double s_i = silhouetteCluster(clusters, i, newSpace, imgsOldSpace, &centroids);
         toRet.push_back(s_i);
         sum += s_i;
     }
     double sTotal = sum/clusters.size();
     toRet.push_back(sTotal);
+
+    if(newSpace) {
+        for(vector<int> * centroid: centroids) delete centroid;
+    }
+
     return toRet;
 }
 
