@@ -1,0 +1,2 @@
+Average Correct Search Results EMD: 0.352344
+Average Correct Search Results MANHATTAN: 0.872656
