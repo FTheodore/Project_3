@@ -1,0 +1,157 @@
+Κ23γ: Ανάπτυξη Λογισμικού για Αλγοριθμικά Προβλήματα
+
+3η Προγραμματιστική Εργασία
+
+Ομάδα 16
+Αναστάσιος Αντωνόπουλος - 1115201400014
+Θεόδωρος Φιλιππίδης - 1115201500170
+
+Github link: https://github.com/FTheodore/Project_3
+
+
+Εκδόσεις βιβλιοθηκών στις οποίες αναπτύχθηκαν τα μοντέλα:
+    - tensorflow: 2.3.0
+    - tensorflow-gpu: 2.3.1
+    - keras: 2.4.3
+
+Usage:
+    Part 1: python  reduce.py  [–d  <dataset>  -q  <queryset>  -od  <output_dataset_file>  -oq  <output_query_file> ]
+
+            + Για την παραγωγή του νευρωνικού δικτύου (encoder) έχει επεκταθεί το 2ο Πρότζεκτ επομένως χρησιμοποιείται η παρακάτω εντολή μέσα στον
+            υποκατάλογο ./Project_2:
+                python autoencoder.py [ –d <dataset> ]
+
+            Το πρόγραμμα θα ζητήσει από τον χρήστη αν θέλει να προστεθεί το ενδιάμεσο bottleneck τμήμα.
+
+    ~~ ΌΛΑ ΤΑ ΠΑΡΑΚΑΤΩ ΕΚΤΕΛΕΣΙΜΑ ΔΗΜΙΟΥΡΓΟΥΝΤΑΙ ΣΤΟΝ ΥΠΟΚΑΤΑΛΟΓΟ ./Source ΜΕΣΩ ΤΗΣ ΕΝΤΟΛΗΣ make ~~
+    Part 2: ./search_reduced [ –d <input file original space> -i <input file new space> –q <query file original space> -s <query file new space> –k <int> -L <int> -ο <output file> ]
+    Part 3: ./search_emd [ –d  <input  file  original  space>  –q  <query  file  original  space>  -l1  <labels of input dataset> -l2 <labels of query dataset> -ο <output file> -EMD ]
+    Part 4: ./cluster [ –d <input file original space> -i <input file new space>  -n <classes from NN as clusters file> –c <configuration file> -o <output file> ]
+
+Σχόλια:
+    Part 1: Δείτε το Research_part1.ipynb
+
+    Part 2: Ενδεικτικά αποτελέσματα βρίσκονται στον υποκατάλογο outputs/part_2. Για όλες τις εκτελέσεις έχουν χρησιμοποιηθεί για train dataset 60.000 εικόνες και για query set 1.000 εικόνες.
+
+            Από τα αποτελέσματα βλέπουμε ότι όσο αφορά την ακρίβεια το LSH σε όλες τις εκτελέσεις παράγει τα καλύτερα αποτελέσματα σε σχέση με τον exact αλγόριθμο στον reduced χώρο.
+            Ωστόσο με το reduction κερδίζουμε σε χρόνο.
+
+            Όσον αφορά τα διαφορετικά dimensions του latent space, όσο πιο μικρό είναι το vector δηλαδή το πλήθος των νευρώνων του latent layer του νευρωνικού δικτύου τόσο πιο λίγη και
+            συμπιεσμένη είναι η πληροφορία για κάθε εικόνα στον καινούργιο χώρο. Επομένως, τόσο χειρότερα είναι και τα αποτελέσματα κατά την εύρεση της πλησιέστερης εικόνας. Ωστόσο όσο
+            πιο μεγάλο είναι το διάνυσμα τόσο περισσότερος χρόνος απαιτείται από τον αλγόριθμο.
+
+            Για αυτό, επειδή ο χρόνος διπλασιάζεται όταν χρησιμοποιούνται διανύσματα μεγέθους 20 σε σχέση με αυτά μεγέθους 10 και δεν υπάρχει μεγάλο κέρδος σε ακρίβεια θεωρείται ως
+            βέλτιστο μέγεθος του latent vector το 10.
+
+    Part 3: Ενδεικτικά αποτελέσματα βρίσκονται στον υποκατάλογο outputs/part_3. Για όλες τις εκτελέσεις έχουν χρησιμοποιηθεί για train dataset 8.192 εικόνες και για query set 256 εικόνες.
+
+            Η υλοποίηση της μετρικής Earth Mover's Distance (EMD) έχει γίνει σε c++ και έχει χρησιμοποιηθεί η βιβλιοθήκη της Google (https://developers.google.com/optimization/reference/index_cpp)
+
+            Γενικά το πλήθος των clusters κάθε εικόνας, δηλαδή το πλήθος των μεταβλητών του προβλήματος γραμμικού προγραμματισμού, πρέπει να είναι αρκετά μικρό διότι επηρεάζει άμεσα την πολυπλοκότητα
+            χρόνου του αλγορίθμου. Ωστόσο όσο πιο μεγάλο το πλήθος των clusters δηλαδή όσο πιο μικρές οι διαστάσεις των clusters τόσο πιο μεγάλο granularity πετυχαίνουμε. Αυτό συμβαίνει διότι
+            ο αλγόριθμος λαμβάνει υπόψιν του τα flows που μεταφέρονται μεταξύ των cluster αλλά αγνοεί την κατανομή του flow στα pixel του cluster. Επομένως όσο πιο μικρές είναι οι διαστάσεις
+            των cluster τόσο μεγαλύτερη είναι η ακρίβεια του exact αλγορίθμου όταν χρησιμοποιείται το EMD σαν μετρική. Το παραπάνω συμπέρασμα είναι εμφανές και από τα αποτελέσματα.
+
+    Part 4: Ενδεικτικά αποτελέσματα βρίσκονται στον υποκατάλογο outputs/part_4. Για όλες τις εκτελέσεις έχουν χρησιμοποιηθεί για dataset 10.000 εικόνες.
+
+            Με βάση τα αποτελέσματα βλέπουμε ότι ο αλγόριθμος του clustering στον νέο reduced space είναι πολύ πιο γρήγορος. Επίσης γνωρίζοντας την πολύ καλή ακρίβεια των αποτελεσμάτων
+            από το classifier νευρωνικό δίκτυο και τα σχετικά κακά αποτελέσματα της Silhouette συμπεραίνουμε ότι η συγκεκριμένη μετρική δεν είναι η κατάλληλη για αυτό το πρόβλημα.
+
+            Όσον αφορά την μετρική του objective function βλέπουμε ότι τα καλύτερα αποτελέσματα βρίσκονται στο original space.
+
+Ο πηγαίος κώδικας έχει οργανωθεί με τον παρακάτω τρόπο:
+./
+├── autoencoders_project3           // Περιέχει τους autoencoders με το bottleneck layer
+│   ├── complex_dim10.h5
+│   ├── complex_dim10.json
+│   ├── complex_dim10.loss.npy
+│   ├── simple_dim10.h5
+│   ├── simple_dim10.json
+│   ├── simple_dim10.loss.npy
+│   ├── simple_dim20.h5
+│   ├── simple_dim20.json
+│   ├── simple_dim20.loss.npy
+│   ├── simple_dim5.h5
+│   ├── simple_dim5.json
+│   └── simple_dim5.loss.npy
+│
+├── clusters_from_neuralnet.txt     // Clusters που παράγονται από το classification neural net
+│
+├── datasets                        // Datasets που παράγονται από το part 1
+│   ├── test
+│   ├── test_dim10
+│   ├── test_dim10_complex
+│   ├── test_dim20
+│   ├── test_dim5
+│   ├── test_labels
+│   ├── train
+│   ├── train_dim10
+│   ├── train_dim10_complex
+│   ├── train_dim20
+│   ├── train_dim5
+│   └── train_labels
+│
+├── outputs                         // Περιέχει τα αποτελέσματα των εκτέλεσεων
+│   ├── part_2
+│   │   ├── dim10_complex.txt
+│   │   ├── dim10.txt
+│   │   ├── dim20.txt
+│   │   └── dim5.txt  
+│   ├── part_3
+│   │   ├── 14x14clusters.txt
+│   │   └── 7x7clusters.txt
+│   └── part_4
+│       ├── dim10_complex.txt
+│       ├── dim10.txt
+│       ├── dim20.txt
+│       └── dim5.txt
+│
+├── Project_2
+│   └── ...
+│
+├── reduce.py                       // Υλοποίηση part 1
+│
+├── Research_all.txt                // Το παρών αρχείο
+│
+├── Research_part1.ipynb            // Jupyter notebook που περιέχει την έρευνα του part 1
+│
+└── Source                          // Extended κώδικας της πρώτης εργασίας
+    ├── Added_files
+    │   ├── Emd.cpp                 // Υλοποίηση μετρικής EMD
+    │   ├── Emd.h
+    │   ├── ImgClusters.cpp         // Διαμέριση εικόνας σε cluster για το EMD
+    │   ├── ImgClusters.h
+    │   ├── Labels.cpp              // Διάβασμα αρχείου ετικετών
+    │   └── Labels.h
+    │
+    ├── Algorithms
+    │   └── ...
+    │
+    ├── cluster.conf
+    │
+    ├── Clustering
+    │   └── ...
+    │
+    ├── Common
+    │   └── ...
+    │
+    ├── libortools.so
+    │
+    ├── Mains
+    │   ├── cluster_main.cpp        // Main part 4
+    │   ├── search_emd_main.cpp     // Main part 3
+    │   └── search_reduced_main.cpp // Main part 2
+    │
+    ├── Makefile
+    │
+    ├── or-tools                    // Βιβλιοθήκη Google
+    │   └──...
+    │
+    ├── parameters.conf
+    │
+    ├── readme.txt
+    │
+    └── Structures
+        └── ...
+
+
